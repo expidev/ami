@@ -1,9 +1,11 @@
 import React from "react"
 import { Routes, Route } from "react-router-dom"
-import DemandeDossier from "./components/DemandeDossier"
+import DemandeDossier from "./pages/DemandeDossier"
 import AjoutDossier from "./components/AjoutDossier"
 import ListeAmi from "./components/ListeAmi"
 import ListeDocuments from "./components/ListeDocuments"
+
+import "./App.css"
 
 const App = ()  => {
 
@@ -30,7 +32,6 @@ const App = ()  => {
           element={<ListeDocuments />}
         />
       </Routes>
-      Main App
     </>
   )
 
