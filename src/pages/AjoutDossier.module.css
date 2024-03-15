@@ -1,0 +1,81 @@
+.title {
+    background-color: #034C8C;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.5em;
+    margin: 0 0 50px 0;
+    box-shadow: 0 6px 4px 1px #1615151a;
+  }
+  
+.container {
+  padding: 12px;
+}
+
+.formContainer {
+  max-width: 500px;
+  margin: auto;
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #F2F2F2;
+}
+
+.demandeForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.submitButton {
+  align-self: flex-end;
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  background-color: #034C8C;
+  color: #fff;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: #03658C;
+}
+
+.input {
+    width: 100%;
+    padding: 0.8em;
+    font-family: inherit;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;  
+}
+
+.input:focus {
+    outline-color: #05050541;
+}
+
+.textarea {
+    width: 100%;
+    height: 150px;
+    padding: 0.8em;
+    font-size: 16px;
+    font-family: inherit;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+
+.textarea:focus {
+    outline-color: #05050541;
+}
+
+.label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.4em;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}

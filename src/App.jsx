@@ -1,7 +1,7 @@
 import React from "react"
 import { Routes, Route } from "react-router-dom"
 import DemandeDossier from "./pages/DemandeDossier"
-import AjoutDossier from "./components/AjoutDossier"
+import AjoutDossier from "./pages/AjoutDossier"
 import ListeAmi from "./components/ListeAmi"
 import ListeDocuments from "./components/ListeDocuments"
 

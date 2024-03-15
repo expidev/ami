@@ -27,31 +27,33 @@ const DemandeDossier= () => {
   }
 
   return (
-    <div>
+    <>
       <h1 className={style.title}>Dossiers pour l'AMI N° 123456</h1>
-      <form 
-        className={`${style.demandeForm} ${style.formContainer}`}
-        onSubmit={handleSubmit}
-      >
-        {
-          inputList.map((item, index) => (
-            <InputTexte
-              key={index}
-              label={item.label}
-              type={item.type}
-              value={formValues[item.name]}
-              name={item.name}
-              handleChange= {handleChange}
-            />
-          ))
-        }
-        <input
-          type="submit" 
-          className={style.submitButton}
-          value="Demander"
-        />
-      </form>
-    </div>
+      <div className={style.container}>
+        <form 
+          className={`${style.demandeForm} ${style.formContainer}`}
+          onSubmit={handleSubmit}
+        >
+          {
+            inputList.map((item, index) => (
+              <InputTexte
+                key={index}
+                label={item.label}
+                type={item.type}
+                value={formValues[item.name]}
+                name={item.name}
+                handleChange= {handleChange}
+              />
+            ))
+          }
+          <input
+            type="submit" 
+            className={style.submitButton}
+            value="Demander"
+          />
+        </form>
+      </div>
+    </>
   );
 }
 
