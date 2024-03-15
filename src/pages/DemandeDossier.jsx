@@ -2,6 +2,8 @@ import { useState } from "react";
 import InputTexte from "../components/InputTexte";
 import { inputList } from "../content/listeInputDemandeDossier";
 
+import style from "./DemandeDossier.module.css";
+
 const DemandeDossier= () => {
 
   const [ formValues, setFormValues ] = useState({
@@ -13,13 +15,13 @@ const DemandeDossier= () => {
     setFormValues({
       ...formValues,
       [e.target.name]: e.target.value
-  });
+    });
   }
 
   return (
     <div>
-      <h1>Dossiers pour l'AMI N° 123456</h1>
-      <form className="demande-form form-container">
+      <h1 className={style.title}>Dossiers pour l'AMI N° 123456</h1>
+      <form className={`${style.demandeForm} ${style.formContainer}`}>
         {
           inputList.map((item, index) => (
             <InputTexte
@@ -32,7 +34,11 @@ const DemandeDossier= () => {
             />
           ))
         }
-        <button type="submit" className="submit-button">Demander</button>
+        <input
+          type="submit" 
+          className={style.submitButton}
+          value="Demander"
+        />
       </form>
     </div>
   );
