@@ -2,8 +2,8 @@ import React from "react"
 import { Routes, Route } from "react-router-dom"
 import DemandeDossier from "./pages/DemandeDossier"
 import AjoutDossier from "./pages/AjoutDossier"
-import ListeAmi from "./components/ListeAmi"
-import ListeDocuments from "./components/ListeDocuments"
+import ListeAmi from "./pages/ListeAmi"
+import ListeDocuments from "./pages/ListeDocuments"
 
 import "./App.css"
 

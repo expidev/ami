@@ -2,6 +2,7 @@ import { useState } from "react";
 import InputTexte from "../components/InputTexte";
 
 import style from "./AjoutDossier.module.css";
+import Titre from "../components/Titre";
 
 const AjoutDossier= () => {
 
@@ -33,7 +34,7 @@ const AjoutDossier= () => {
 
   return (
     <>
-        <h1 className={style.title}>Ajout de Dossiers pour l'AMI N° 123456</h1>
+        <Titre title="Ajout de Dossiers pour l'AMI N° 123456" />
         <div className={style.container}>
             <form 
                 className={`${style.demandeForm} ${style.formContainer}`}
