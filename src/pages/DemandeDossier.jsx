@@ -8,7 +8,10 @@ const DemandeDossier= () => {
 
   const [ formValues, setFormValues ] = useState({
     nom: "",
-    prenom: ""
+    prenom: "",
+    id_candidat: "",
+    email: "",
+    contact: ""
   });
 
   const handleChange = (e) => {
@@ -18,10 +21,18 @@ const DemandeDossier= () => {
     });
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formValues);
+  }
+
   return (
     <div>
       <h1 className={style.title}>Dossiers pour l'AMI N° 123456</h1>
-      <form className={`${style.demandeForm} ${style.formContainer}`}>
+      <form 
+        className={`${style.demandeForm} ${style.formContainer}`}
+        onSubmit={handleSubmit}
+      >
         {
           inputList.map((item, index) => (
             <InputTexte
