@@ -15,6 +15,14 @@ const DemandeDossier= () => {
     contact: ""
   });
 
+  const [ errors, setErrors ] = useState({
+    nom: "User name is required.",
+    prenom: "",
+    id_candidat: "",
+    email: "",
+    contact: ""  
+  });
+
   const handleChange = (e) => {
     setFormValues({
       ...formValues,
@@ -39,10 +47,9 @@ const DemandeDossier= () => {
             inputList.map((item, index) => (
               <InputTexte
                 key={index}
-                label={item.label}
-                type={item.type}
+                {...item}
+                errors={errors}
                 value={formValues[item.name]}
-                name={item.name}
                 handleChange= {handleChange}
               />
             ))

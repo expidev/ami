@@ -7,6 +7,12 @@
     border-radius: 5px;  
 }
 
+.error {
+    display: block;
+    margin-top: 5px;
+    color: rgb(199, 78, 30);
+}
+
 .input:focus {
     outline-color: #05050541;
 }
