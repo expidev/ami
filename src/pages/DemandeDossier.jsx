@@ -1,9 +1,14 @@
 import { useState } from "react";
-import InputTexte from "../components/InputTexte";
+import InputTexte from "../components/form/InputTexte";
 import { inputList } from "../content/listeInputDemandeDossier";
 
 import style from "./DemandeDossier.module.css";
-import Titre from "../components/Titre";
+import Title from "../components/Title";
+import { validateDemandeDossier } from "../helpers/validateForm";
+import Button from "../components/form/Button";
+import InputContainer from "../components/form/InputContainer";
+import Label from "../components/form/Label";
+import Error from "../components/form/Error";
 
 const DemandeDossier= () => {
 
@@ -15,13 +20,7 @@ const DemandeDossier= () => {
     contact: ""
   });
 
-  const [ errors, setErrors ] = useState({
-    nom: "User name is required.",
-    prenom: "",
-    id_candidat: "",
-    email: "",
-    contact: ""  
-  });
+  const [ errors, setErrors ] = useState({});
 
   const handleChange = (e) => {
     setFormValues({
@@ -32,33 +31,49 @@ const DemandeDossier= () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrors({});
+    const data = validateDemandeDossier(formValues);
+    for (const [key, value] of Object.entries(data))
+    {
+      if (value) {
+        setErrors(data);
+        return;
+      }
+    }
     console.log(formValues);
   }
 
   return (
     <>
-      <Titre title="Dossiers pour l'AMI N° 123456" />
+      <Title title="Dossiers pour l'AMI N° 123456" />
       <div className={style.container}>
         <form 
-          className={`${style.demandeForm} ${style.formContainer}`}
+          className={style.formContainer}
           onSubmit={handleSubmit}
         >
           {
             inputList.map((item, index) => (
-              <InputTexte
-                key={index}
-                {...item}
-                errors={errors}
-                value={formValues[item.name]}
-                handleChange= {handleChange}
-              />
+              <InputContainer key={index}>
+                <Label 
+                  value={item.label} 
+                  name={item.name}
+                  required={item.required}
+                />
+                <InputTexte
+                  {...item}
+                  value={formValues[item.name]}
+                  handleChange= {handleChange}
+                />
+                <Error value={errors[item.name]} />
+              </InputContainer>
             ))
           }
-          <input
-            type="submit" 
-            className={style.submitButton}
-            value="Demander"
-          />
+          <div className={style.buttonContainer}>
+            <Button
+              type="submit"
+              value="Demander"
+            />
+          </div>
         </form>
       </div>
     </>

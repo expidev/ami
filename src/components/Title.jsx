@@ -1,4 +1,4 @@
-import style from './Titre.module.css'
+import style from './Title.module.css'
 
 const Titre = ({title}) => (
     <h1 className={style.title}>

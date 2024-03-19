@@ -1,0 +1,12 @@
+.label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.4em;
+}
+
+.required::after {
+    content: "*";
+    font-size: 1.2em;
+    color: rgb(199, 78, 30);
+    margin-left: 5px;
+}
