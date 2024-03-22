@@ -1,0 +1,11 @@
+.input {
+    width: 100%;
+    padding: 0.8em;
+    font-family: inherit;
+    font-size: 1em;
+    border-radius: 5px;  
+}
+
+.input:focus {
+    outline-color: #05050541;
+}

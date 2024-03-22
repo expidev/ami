@@ -3,7 +3,7 @@
     width: 100%;
     max-width: 700px;
     font-size: 1em;
-    margin: auto;
+    margin: 80px auto;
 }
 
 .table td, .table th {
@@ -14,4 +14,5 @@
 
 .table th {
     text-align: left;
+    background-color: #F2F2F2;
 }

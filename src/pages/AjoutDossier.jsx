@@ -9,14 +9,17 @@ import Button from "../components/form/Button";
 import Label from "../components/form/Label";
 import InputContainer from "../components/form/InputContainer";
 import Error from "../components/form/Error";
+import DocumentApi from "../api/DocumentApi";
+import FileInput from "../components/form/FileInput";
 
 const AjoutDossier= () => {
 
   const [ formValues, setFormValues ] = useState({
-    fichier: "",
-    ami: "",
+    id_ami: "",
     description: "",
   });
+
+  const [ files, setFiles ] = useState(['fichier0']);
 
   const [errors, setErrors] = useState({});
 
@@ -31,11 +34,11 @@ const AjoutDossier= () => {
   const handleFileChange = (e) => {
     setFormValues({
       ...formValues,
-      fichier: e.target.files[0]
+      [e.target.name]: e.target.files[0]
     });
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
     const data = validateDepotDossier(formValues);
@@ -46,27 +49,42 @@ const AjoutDossier= () => {
         return;
       }
     }
-    console.log(formValues);
+    try {
+      const responseData = await DocumentApi.post('/ajout', formValues);
+      console.log('Response from server:', responseData);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  const handleRemoveFile = (file) => {
+    const newFormValues = {};
+    Object.keys(formValues).forEach(key => {
+      if (key !== file)
+        newFormValues[key] = formValues[key];
+    })
+    setFiles(files.filter((item) => item !== file ))
+    setFormValues(newFormValues)
   }
 
   return (
     <>
-        <Title title="Ajout de Dossiers pour l'AMI N° 123456" />
+        <Title title={`Ajout de Dossiers pour un AMI`} />
         <div className={style.container}>
             <form 
                 className={style.formContainer}
                 onSubmit={handleSubmit}
             >
                 <InputContainer>
-                  <Label value="N° AMI" name="ami" required={true} />
+                  <Label value="N° AMI" name="id_ami" required={true} />
                   <InputTexte
                       type="text"
-                      value={formValues["ami"]}
-                      name="ami"
+                      value={formValues["id_ami"]}
+                      name="id_ami"
                       placeholder="Entrez le N° Ref AMI"
                       handleChange= {handleChange}
                   />
-                  <Error value={errors["ami"]} />
+                  <Error value={errors["id_ami"]} />
                 </InputContainer>
 
                 <InputContainer>
@@ -82,11 +100,26 @@ const AjoutDossier= () => {
 
                 <InputContainer>
                   <Label value="Dossier DAO" name="fichier" required={true} />
-                  <input 
-                        className={style.input} 
-                        type="file" 
-                        onChange={handleFileChange}
-                        name="fichier"
+                  {
+                    files.map((file) => (
+                      <div className={style.fileContainer}>
+                        <FileInput
+                          key={file}
+                          name={file}
+                          handleFileChange={handleFileChange}
+                        />
+                        <Button
+                          type="button" 
+                          value="X"
+                          handleClick={(e) => handleRemoveFile(file)}
+                        />
+                      </div>
+                    ))
+                  }
+                  <Button
+                      type="button" 
+                      value="Ajouter une autre fichier"
+                      handleClick={() => setFiles([...files, `fichier${files.length + 1}`])}
                   />
                   <Error value={errors["fichier"]} />
                 </InputContainer>

@@ -1,26 +1,35 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import InputTexte from "../components/form/InputTexte";
 import { inputList } from "../content/listeInputDemandeDossier";
-
-import style from "./DemandeDossier.module.css";
 import Title from "../components/Title";
-import { validateDemandeDossier } from "../helpers/validateForm";
 import Button from "../components/form/Button";
 import InputContainer from "../components/form/InputContainer";
 import Label from "../components/form/Label";
 import Error from "../components/form/Error";
+
+import style from "./DemandeDossier.module.css";
+import { validateDemandeDossier } from "../helpers/validateForm";
+import VisitorApi from "../api/VisitorApi.js";
+
 
 const DemandeDossier= () => {
 
   const [ formValues, setFormValues ] = useState({
     nom: "",
     prenom: "",
-    id_candidat: "",
-    email: "",
-    contact: ""
+    cin_nif: "",
+    email_entreprise: "",
+    telephone: ""
   });
 
   const [ errors, setErrors ] = useState({});
+
+  const { id_ami } = useParams();
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormValues({
@@ -29,23 +38,32 @@ const DemandeDossier= () => {
     });
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
     const data = validateDemandeDossier(formValues);
-    for (const [key, value] of Object.entries(data))
-    {
+  
+    for (const [key, value] of Object.entries(data)) {
       if (value) {
         setErrors(data);
         return;
       }
     }
-    console.log(formValues);
-  }
+  
+    try {
+      const responseData = await VisitorApi.post('/', formValues);
+      console.log('Response from server:', responseData);
+      navigate(`/lien_de_confirmation/${id_ami}`)
+      
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
 
   return (
     <>
-      <Title title="Dossiers pour l'AMI N° 123456" />
+      <Title title={`Dossiers pour l'AMI N° ${id_ami}`} />
       <div className={style.container}>
         <form 
           className={style.formContainer}

@@ -6,6 +6,7 @@ import ListeAmi from "./pages/ListeAmi"
 import ListeDocuments from "./pages/ListeDocuments"
 
 import "./App.css"
+import EmailSent from "./pages/EmailSent"
 
 const App = ()  => {
 
@@ -13,23 +14,28 @@ const App = ()  => {
     <>
       <Routes>
         <Route 
-          path="/" 
-          element={<DemandeDossier />}
-        />
-
-        <Route 
           path="/ami"
           element={<ListeAmi />} 
         />
 
         <Route 
-          path="/ajout" 
+          path="/ajout/"
           element={<AjoutDossier />}
         />
 
         <Route 
           path="/documents" 
           element={<ListeDocuments />}
+        />
+
+        <Route 
+          path="/lien_de_confirmation/:id_ami" 
+          element={<EmailSent />}
+        />
+
+        <Route 
+          path="/:id_ami" 
+          element={<DemandeDossier />}
         />
       </Routes>
     </>

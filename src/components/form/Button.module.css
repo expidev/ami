@@ -12,7 +12,10 @@
     composes: submitButton;
     padding: 7px 15px;
     font-size: 0.75em;
-    margin: 5px;
+    background-color: #F2F2F2;
+    color: #000;
+    margin: 10px 5px;
+    border: 1px rgb(148, 145, 145) solid;
 }
   
 .button:hover, .submitButton:hover {

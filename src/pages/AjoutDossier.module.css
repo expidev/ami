@@ -14,17 +14,10 @@
   background-color: #F2F2F2;
 }
 
-.input {
-    width: 100%;
-    padding: 0.8em;
-    font-family: inherit;
-    font-size: 1em;
-    border: 1px solid #ccc;
-    border-radius: 5px;  
-}
-
-.input:focus {
-    outline-color: #05050541;
+.fileContainer {
+  display: flex;
+  border: 1px rgb(209, 206, 206) solid;
+  margin: 5px;
 }
 
 .buttonContainer {

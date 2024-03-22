@@ -76,16 +76,25 @@ export const validateDemandeDossier = (input) => {
     return {
         nom: validateName(input.nom),
         prenom: validateFirstName(input.prenom),
-        id_candidat: validateCinOrNif(input.id_candidat),
-        email: validateEmail(input.email),
-        contact: validateContact(input.contact)
+        id_candidat: validateCinOrNif(input.cin_nif),
+        email: validateEmail(input.email_entreprise),
+        contact: validateContact(input.telephone)
     }
 }
 
 export const validateDepotDossier = (input) => {
-    return {
-        ami: validateAmi(input.ami),
-        description: validateTextarea(input.description),
-        fichier: validateFile(input.fichier)
-    }
+
+    const res = {}
+
+    Object.keys(input).forEach(item => {
+        if (item.startsWith('fichier')) {
+            res[item] = validateFile(input[item]);
+        }
+    })
+
+    res.ami = validateAmi(input.id_ami);
+    res.description = validateTextarea(input.description);
+    
+
+    return res;
 }

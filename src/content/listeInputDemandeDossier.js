@@ -16,21 +16,21 @@ export const inputList = [
     {
       label: "N° CIN ou NIF",
       type: "text",
-      name: "id_candidat",
+      name: "cin_nif",
       placeholder: "Entrez votre N° CIN ou NIF",
       required: true
     },
     {
       label: "Email",
       type: "email",
-      name: "email",
+      name: "email_entreprise",
       placeholder: "Entrez votre email",
       required: true
     },
     {
       label: "Contact",
       type: "text",
-      name: "contact",
+      name: "telephone",
       placeholder: "Entrez votre numéro de téléphone",
       required: true
     }
