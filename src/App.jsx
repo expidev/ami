@@ -7,6 +7,7 @@ import ListeDocuments from "./pages/ListeDocuments"
 
 import "./App.css"
 import EmailSent from "./pages/EmailSent"
+import SignInAdmin from "./pages/SignInAdmin"
 
 const App = ()  => {
 
@@ -16,6 +17,11 @@ const App = ()  => {
         <Route 
           path="/ami"
           element={<ListeAmi />} 
+        />
+
+       <Route 
+          path="/signin"
+          element={<SignInAdmin />} 
         />
 
         <Route 
