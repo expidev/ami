@@ -25,12 +25,12 @@ const App = ()  => {
         />
 
         <Route 
-          path="/ajout/"
+          path="/ajout/:id_ami"
           element={<AjoutDossier />}
         />
 
         <Route 
-          path="/documents" 
+          path="/documents/:id_ami" 
           element={<ListeDocuments />}
         />
 

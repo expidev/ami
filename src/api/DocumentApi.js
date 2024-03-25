@@ -26,6 +26,18 @@ class DocumentApi {
           throw error;
         }
     }
+
+    static async getDocumentByAmi(id_ami) {
+        try {
+            const response = await axios.get(
+                `${baseURL}/documents/${id_ami}`);
+            return response.data
+    
+        } catch (error) {
+          console.error('Error posting data:', error);
+          throw error;
+        }
+    }
 }
 
 export default DocumentApi;
