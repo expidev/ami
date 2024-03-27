@@ -2,7 +2,6 @@ import { useState } from "react";
 import InputTexte from "../components/form/InputTexte";
 
 import style from "./AjoutDossier.module.css";
-import Title from "../components/Title";
 import { validateDepotDossier } from "../helpers/validateForm";
 import Textarea from "../components/form/Textarea";
 import Button from "../components/form/Button";
@@ -69,7 +68,6 @@ const AjoutDossier= () => {
 
   return (
     <>
-        <Title title={`Ajout de Dossiers pour un AMI`} />
         <div className={style.container}>
             <form 
                 className={style.formContainer}
