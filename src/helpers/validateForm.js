@@ -38,6 +38,13 @@ const validateName = (text) => {
         return "";
 }
 
+const validatePassword = (text) => {
+    if (!text)
+        return `Mot de passe ne doit pas être vide.`;
+    else
+        return "";
+}
+
 const validateFirstName = (text) => {
     if (!/^[a-zA-Z ]$/.test(text) || text.length > 60)
         return text ? "Prénom invalide" : "";
@@ -54,10 +61,7 @@ const validateAmi = (text) => {
         return "";
 }
 
-const validateFile = (file) => {
-    if (!file)
-        return "Fichier obligatoire";
-    
+const validateFile = (file) => {    
     const size = Math.round(file.size/1024);
     if (size > (3 * 1024))
         return "Soumettre un fichier inférieur à 3MB."
@@ -85,16 +89,23 @@ export const validateDemandeDossier = (input) => {
 export const validateDepotDossier = (input) => {
 
     const res = {}
-
     Object.keys(input).forEach(item => {
         if (item.startsWith('fichier')) {
             res[item] = validateFile(input[item]);
+            count++;
         }
     })
 
-    res.ami = validateAmi(input.id_ami);
+    res.id_ami = validateAmi(input.id_ami);
     res.description = validateTextarea(input.description);
     
-
     return res;
+}
+
+export const validateSignIn = (input) => {
+    const emailError = validateEmail(input.email);
+    const passwordError = validatePassword(input.password);
+
+    if (emailError || passwordError)
+        return "Email ou mot de passe invalide.";
 }

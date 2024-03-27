@@ -5,7 +5,8 @@ const InputTexte= ({
   value, 
   name, 
   placeholder,
-  handleChange
+  handleChange,
+  ...rest
 }) => (
        <input
          className={style.input}
@@ -15,6 +16,7 @@ const InputTexte= ({
          name={name}
          onChange={handleChange}
          placeholder={placeholder}
+         {...rest}
        />
 );
   

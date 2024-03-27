@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputTexte from "../components/form/InputTexte";
 
 import style from "./AjoutDossier.module.css";
@@ -9,9 +9,10 @@ import Label from "../components/form/Label";
 import InputContainer from "../components/form/InputContainer";
 import Error from "../components/form/Error";
 import DocumentApi from "../api/DocumentApi";
+import AmiApi from "../api/AmiApi";
 import FileInput from "../components/form/FileInput";
 
-const AjoutDossier= () => {
+const AjoutDossier= ({ id_ami, trigger, setTrigger }) => {
 
   const [ formValues, setFormValues ] = useState({
     id_ami: "",
@@ -21,6 +22,22 @@ const AjoutDossier= () => {
   const [ files, setFiles ] = useState(['fichier0']);
 
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    const fetchAmi = async () => {
+      try {
+          const newAmi = await AmiApi.getAmiById(id_ami);
+          setFormValues({
+            ...formValues, 
+            id_ami: newAmi.id_ami,
+            description: newAmi.description
+          });
+      } catch (err) {
+          console.error("Error fetching AMI list:", err);
+      }
+    };
+    fetchAmi(id_ami);
+  }, [trigger])
 
   const handleChange = (e) => {
     const {name, value} = e.target;
@@ -50,6 +67,8 @@ const AjoutDossier= () => {
     }
     try {
       const responseData = await DocumentApi.post('/ajout', formValues);
+      setTrigger(prev => !prev)
+      setFiles(files[0] == 'fichier'? ['fichier0'] : ['fichier'])
       console.log('Response from server:', responseData);
     } catch (error) {
       console.error('Error:', error);
@@ -69,7 +88,7 @@ const AjoutDossier= () => {
   return (
     <>
         <div className={style.container}>
-            <form 
+            <form
                 className={style.formContainer}
                 onSubmit={handleSubmit}
             >
@@ -80,16 +99,17 @@ const AjoutDossier= () => {
                       value={formValues["id_ami"]}
                       name="id_ami"
                       placeholder="Entrez le N° Ref AMI"
+                      disabled
                       handleChange= {handleChange}
                   />
                   <Error value={errors["id_ami"]} />
                 </InputContainer>
 
                 <InputContainer>
-                  <Label value="Description" name="Description" />
+                  <Label value="Description" name="description" />
                   <Textarea
-                      name="Description"
-                      placeholder="Ajoutez votre commentaire ici..."
+                      name="description"
+                      placeholder="Mettre à jour la description des DAOs ici... "
                       value={formValues["description"]}
                       handleChange={handleChange}
                   />
@@ -97,10 +117,13 @@ const AjoutDossier= () => {
                 </InputContainer>
 
                 <InputContainer>
-                  <Label value="Dossier DAO" name="fichier" required={true} />
+                  <Label value="Dossier DAO" name="fichier" />
                   {
                     files.map((file) => (
-                      <div className={style.fileContainer}>
+                      <div 
+                        key={file} 
+                        className={style.fileContainer}
+                      >
                         <FileInput
                           key={file}
                           name={file}
@@ -111,6 +134,7 @@ const AjoutDossier= () => {
                           value="X"
                           handleClick={(e) => handleRemoveFile(file)}
                         />
+                        <Error value={errors[file]} />
                       </div>
                     ))
                   }

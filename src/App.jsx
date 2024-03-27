@@ -8,25 +8,27 @@ import ListeDocuments from "./pages/ListeDocuments"
 import "./App.css"
 import EmailSent from "./pages/EmailSent"
 import SignInAdmin from "./pages/SignInAdmin"
+import PrivateRoutes from "./components/ProtectedRoute"
 
 const App = ()  => {
 
   return (
     <>
       <Routes>
-        <Route 
-          path="/ami"
-          element={<ListeAmi />} 
-        />
+        <Route element={<PrivateRoutes/>}>
+            <Route 
+              path="/ami"
+              element={<ListeAmi />} 
+            />
+            <Route 
+              path="/ajout/:id_ami"
+              element={<AjoutDossier />}
+            />
+        </Route>
 
        <Route 
           path="/signin"
           element={<SignInAdmin />} 
-        />
-
-        <Route 
-          path="/ajout/:id_ami"
-          element={<AjoutDossier />}
         />
 
         <Route 
@@ -40,7 +42,7 @@ const App = ()  => {
         />
 
         <Route 
-          path="/:id_ami" 
+          path="/demande/:id_ami" 
           element={<DemandeDossier />}
         />
       </Routes>

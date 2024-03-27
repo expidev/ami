@@ -17,7 +17,12 @@
     margin: 10px 5px;
     border: 1px rgb(148, 145, 145) solid;
 }
-  
-.button:hover, .submitButton:hover {
+
+.submitButton:hover {
     background-color: #03658C;
+}
+
+.button:hover {
+    background-color: #03658C;
+    color: #fff;
 }

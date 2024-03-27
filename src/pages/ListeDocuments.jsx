@@ -5,10 +5,12 @@ import Table from "../components/tableau/Table";
 import style from "./ListeDocuments.module.css";
 import DocumentApi from "../api/DocumentApi";
 import { useParams } from "react-router-dom";
+import AjoutDossier from "./AjoutDossier";
 
 const ListeDocuments = () => {
 
     const [documents, setDocuments] = useState([]);
+    const [ trigger, setTrigger ] = useState(false);
     const {id_ami} = useParams();
 
     useEffect(() => {
@@ -22,38 +24,72 @@ const ListeDocuments = () => {
         }
       }
       fetchDocumentByid_ami(id_ami);
-    }, [])
+    }, [trigger])
+
+    const handleRemoveDocument = async (documentId, fileName) => {
+        try {
+          await DocumentApi.removeDocument(documentId, fileName);
+          setTrigger(prev => !prev);
+        } catch (err) {
+          console.log(err.message);
+        }
+    }
+
+    const handleDownloadDocument = async (fileType, fileName) => {
+      try {
+        const response = await DocumentApi.downloadDocument(fileType, fileName);
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+        console.log('clicked')
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
 
     return (
+
       <>
-        <Title title="Liste des documents pour l'AMI N° 231321212"/>
+        <Title title={`Liste des documents pour l'AMI N° ${id_ami}`}/>
         <div className={style.container}>
+          <div className={style.editContainer}>
+            <AjoutDossier 
+              id_ami={id_ami} 
+              trigger={trigger}
+              setTrigger={setTrigger} 
+            />
+          </div>
           {documents.length > 0  && 
-             <Table
-               headers={["Intitulé", "Action"]}
-             >
-                {documents.map(item => (
-                <tr key={item.id_fichier}>
-                  <td>{item.nom_fichier}</td>
-                  <td>
-                    <Button
-                      value="Télécharger"
-                      type="button"
-                      handleClick={() => {}}
-                    />
-                    <Button
-                      value="Supprimer"
-                      type="button"
-                      handleClick={() => {}}
-                    />
-                  </td>
-                </tr>
-                ))}
-             </Table>
+              <>
+                <Table
+                  headers={["Intitulé", "Action"]}
+                >
+                    {documents.map(item => (
+                    <tr key={item.id_fichier}>
+                      <td>{item.nom_fichier}</td>
+                      <td>
+                        <Button
+                          value="Télécharger"
+                          type="button"
+                          handleClick={(e) => {handleDownloadDocument(item.type_fichier, item.nom_fichier)}}
+                        />
+                        <Button
+                          value="Supprimer"
+                          type="button"
+                          handleClick={(e) => handleRemoveDocument(item.id_fichier, item.nom_fichier)}
+                        />
+                      </td>
+                    </tr>
+                    ))}
+                </Table>
+              </>
            }
           
           {documents.length == 0  &&  (
-                <p style={{textAlign: "center"}}>Pas de document.</p>
+                <p style={{textAlign: "center"}}>Pas de documents.</p>
           )}
         </div>
       </>

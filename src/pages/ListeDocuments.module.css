@@ -3,3 +3,10 @@
   width: 100%;
   overflow-x: auto;
 }
+
+.editContainer {
+  width: 100%;
+  max-width: 700px;
+  font-size: 1em;
+  margin: 0 auto;
+}

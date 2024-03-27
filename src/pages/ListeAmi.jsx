@@ -41,7 +41,7 @@ const ListeAmi = () => {
                         <Button
                           type="button"
                           value="DAO"
-                          handleClick={() => {navigate(`/documents`)}}
+                          handleClick={() => {navigate(`/documents/${item.id_ami}`)}}
                         />
                       </td>
                     </tr>

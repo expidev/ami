@@ -9,6 +9,8 @@ import Button from "../components/form/Button"
 import style from "./SignInAdmin.module.css"
 import AdminApi from "../api/AdminApi"
 import AuthService from "../helpers/AuthService"
+import { useNavigate } from "react-router-dom"
+import { validateSignIn } from "../helpers/validateForm";
 
 const SignInAdmin = () => {
 
@@ -18,6 +20,8 @@ const SignInAdmin = () => {
     });
 
     const [error, setError] = useState("");
+
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setSignInValues({
@@ -30,12 +34,17 @@ const SignInAdmin = () => {
         e.preventDefault();
         setError("");
         try {
+            const error = validateSignIn(signinValues);
+            if (error) {
+                setError(error);
+                return;
+            }
             const response = await AdminApi.post('/signin', signinValues);
             const { token } = response;
             AuthService.setToken(token);
-
+            navigate('/ami')
         } catch (error) {
-                setError(error.response.data.message);
+                setError(error.response.data.message || "internal error");
         }
     }
 
@@ -47,7 +56,9 @@ const SignInAdmin = () => {
                     className={style.formContainer}
                     onSubmit={handleSubmit}
                 >
-                    <Error value={error} />
+                    <InputContainer>
+                        <Error value={error} />
+                    </InputContainer>
                     <InputContainer>
                         <Label value="Email" name="email"/>
                         <InputTexte
