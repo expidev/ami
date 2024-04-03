@@ -1,0 +1,66 @@
+import axios from 'axios';
+import AuthService from '../helpers/AuthService';
+
+const baseURL = 'http://localhost:3000'
+
+class SuperviseurApi {
+    
+    static async getSuperviseur(endpoint) {
+        try {
+            const response = await axios.get(
+                `${baseURL}${endpoint}`, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + AuthService.getToken()
+                    }
+                }
+            );
+            return response.data
+    
+        } catch (error) {
+          console.error('Error retrieving data:', error);
+          throw error;
+        }
+    }
+
+    static async post(endpoint, formValues) {
+        try {
+
+            const response = await axios.post(
+                `${baseURL}${endpoint}`, 
+                formValues, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + AuthService.getToken()
+                    }
+                }
+            );
+            return response.data
+    
+        } catch (error) {
+          console.error('Error posting data:', error);
+          throw error;
+        }
+    }
+
+    static async removeSuperviseur(id) {
+        try {
+            const response = await axios.delete(
+                `${baseURL}/superviseur/${id}/`,{
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + AuthService.getToken()
+                    }}
+            );
+            return response.data
+    
+        } catch (error) {
+          console.error('Error posting data:', error);
+          throw error;
+        }  
+    }
+}
+
+export default SuperviseurApi;
