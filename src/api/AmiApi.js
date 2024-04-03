@@ -35,7 +35,7 @@ class AdminApi {
                     }
                 }
             );
-            return response.data[0]
+            return response.data
         } catch (error) {
           console.error('Error posting data:', error);
           throw error;

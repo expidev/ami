@@ -28,7 +28,7 @@ const ListeAmi = () => {
     return (
       <>
         <Title title="Liste des AMIs"/>
-        <AmiMenu/>
+        <AmiMenu setAmiList={setAmiList} />
         <div className={style.container}>
           {amiList.length > 0 &&
             <Table

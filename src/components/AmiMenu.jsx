@@ -2,9 +2,23 @@ import Button from "./form/Button";
 
 import style from "./AmiMenu.module.css";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import AmiApi from "../api/AmiApi";
 
-const AmiMenu = () => {
+const AmiMenu = ({setAmiList}) => {
+    const [ search , setSearch ] = useState("");
     const navigate = useNavigate();
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        try {
+            const responseData = await AmiApi.getAmiById(search);
+            setAmiList(responseData)
+        }
+        catch(err) {
+            console.log(err.message)
+        }
+    }
 
     return (
         <div className={style.container}>
@@ -17,7 +31,16 @@ const AmiMenu = () => {
                     />
                 </li>
                 <li>
-                    <input type="search" name="" id="" />
+                    <form
+                        onSubmit={handleSearch}
+                    >
+                        <input 
+                            type="search" 
+                            name="search" 
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                        <input type="submit" value="search"/>
+                    </form>
                 </li>
                 <li>
                     <Button
