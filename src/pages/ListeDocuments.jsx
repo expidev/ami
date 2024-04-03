@@ -5,25 +5,27 @@ import Table from "../components/tableau/Table";
 import style from "./ListeDocuments.module.css";
 import DocumentApi from "../api/DocumentApi";
 import { useParams } from "react-router-dom";
-import AjoutDossier from "./AjoutDossier";
+import AjoutDossier from "../components/AjoutDossier";
 
 const ListeDocuments = () => {
 
     const [documents, setDocuments] = useState([]);
     const [ trigger, setTrigger ] = useState(false);
-    const {id_ami} = useParams();
+    const { id_ami } = useParams();
 
     useEffect(() => {
-      const fetchDocumentByid_ami = async(id_ami) => {
-        try {
-          const newDocuments = await DocumentApi.getDocumentByAmi(id_ami);
-          setDocuments(newDocuments);
+      if (id_ami) {
+        const fetchDocumentByid_ami = async(id_ami) => {
+          try {
+            const newDocuments = await DocumentApi.getDocumentByAmi(id_ami);
+            setDocuments(newDocuments);
+          }
+          catch(err) {
+            console.log(err.message)
+          }
         }
-        catch(err) {
-          console.log(err.message)
-        }
+        fetchDocumentByid_ami(id_ami);
       }
-      fetchDocumentByid_ami(id_ami);
     }, [trigger])
 
     const handleRemoveDocument = async (documentId, fileName) => {
@@ -44,7 +46,6 @@ const ListeDocuments = () => {
         link.setAttribute('download', fileName);
         document.body.appendChild(link);
         link.click();
-        console.log('clicked')
       } catch (err) {
         console.log(err.message);
       }
@@ -53,11 +54,16 @@ const ListeDocuments = () => {
     return (
 
       <>
-        <Title title={`Liste des documents pour l'AMI N° ${id_ami}`}/>
+        <Title 
+          title={id_ami ? `Liste des documents pour l'AMI N° ${id_ami}` :
+            "Ajout de DAO pour un AMI"
+          }
+        />
         <div className={style.container}>
           <div className={style.editContainer}>
             <AjoutDossier 
-              id_ami={id_ami} 
+              id_ami={id_ami}
+              isNewAmi={id_ami ? false : true}
               trigger={trigger}
               setTrigger={setTrigger} 
             />
@@ -87,10 +93,6 @@ const ListeDocuments = () => {
                 </Table>
               </>
            }
-          
-          {documents.length == 0  &&  (
-                <p style={{textAlign: "center"}}>Pas de documents.</p>
-          )}
         </div>
       </>
     );

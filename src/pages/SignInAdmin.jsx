@@ -1,31 +1,29 @@
 import { useState } from "react"
 import Titre from "../components/Title"
-import InputContainer from "../components/form/InputContainer"
+import GroupContainer from "../components/GroupContainer"
 import InputTexte from "../components/form/InputTexte"
 import Label from "../components/form/Label"
 import Error from "../components/form/Error"
 import Button from "../components/form/Button"
 
-import style from "./SignInAdmin.module.css"
+import style from "./SigninAdmin.module.css"
 import AdminApi from "../api/AdminApi"
 import AuthService from "../helpers/AuthService"
 import { useNavigate } from "react-router-dom"
 import { validateSignIn } from "../helpers/validateForm";
 
-const SignInAdmin = () => {
+const SigninAdmin = () => {
 
-    const [signinValues, setSignInValues] = useState({
+    const [formValues, setFormValues] = useState({
         email: "",
         password: ""
     });
-
     const [error, setError] = useState("");
-
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-        setSignInValues({
-            ...signinValues,
+        setFormValues({
+            ...formValues,
             [e.target.name]: e.target.value
         })
     }
@@ -34,17 +32,17 @@ const SignInAdmin = () => {
         e.preventDefault();
         setError("");
         try {
-            const error = validateSignIn(signinValues);
+            const error = validateSignIn(formValues);
             if (error) {
                 setError(error);
                 return;
             }
-            const response = await AdminApi.post('/signin', signinValues);
+            const response = await AdminApi.post('/signin', formValues);
             const { token } = response;
             AuthService.setToken(token);
             navigate('/ami')
         } catch (error) {
-                setError(error.response.data.message || "internal error");
+            setError(error.response.data.message || "Internal error");
         }
     }
 
@@ -56,29 +54,29 @@ const SignInAdmin = () => {
                     className={style.formContainer}
                     onSubmit={handleSubmit}
                 >
-                    <InputContainer>
+                    <GroupContainer>
                         <Error value={error} />
-                    </InputContainer>
-                    <InputContainer>
+                    </GroupContainer>
+                    <GroupContainer>
                         <Label value="Email" name="email"/>
                         <InputTexte
                             type="email"
                             name="email"
-                            value={signinValues["email"]}
+                            value={formValues["email"]}
                             handleChange={handleChange}
                             placeholder="Entrez votre email"
                         />
-                    </InputContainer>
-                    <InputContainer>
+                    </GroupContainer>
+                    <GroupContainer>
                         <Label value="Mot de Passe" name="password"/>
                         <InputTexte
                             type="password"
                             name="password"
-                            value={signinValues["password"]}
+                            value={formValues["password"]}
                             handleChange={handleChange}
-                            placeholder="Entrez votre Mot de Passe"
+                            placeholder="Entrez votre mot de passe"
                         />
-                    </InputContainer>
+                    </GroupContainer>
                     <div className={style.buttonContainer}>
                         <Button
                             type="submit"
@@ -91,4 +89,4 @@ const SignInAdmin = () => {
     )
 }
 
-export default SignInAdmin
+export default SigninAdmin

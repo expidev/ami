@@ -61,8 +61,12 @@ const validateAmi = (text) => {
         return "";
 }
 
-const validateFile = (file) => {    
+const validateFile = (file) => {   
     const size = Math.round(file.size/1024);
+    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+    if (!allowedTypes.includes(file.type))
+        return "Type de fichier non autorisé."
+
     if (size > (3 * 1024))
         return "Soumettre un fichier inférieur à 3MB."
     
@@ -87,12 +91,10 @@ export const validateDemandeDossier = (input) => {
 }
 
 export const validateDepotDossier = (input) => {
-
     const res = {}
     Object.keys(input).forEach(item => {
         if (item.startsWith('fichier')) {
             res[item] = validateFile(input[item]);
-            count++;
         }
     })
 
@@ -100,6 +102,13 @@ export const validateDepotDossier = (input) => {
     res.description = validateTextarea(input.description);
     
     return res;
+}
+
+export const validateAjoutEmail = (input) => {
+    return {
+        nom: validateName(input.nom),
+        email: validateEmail(input.email),
+    } 
 }
 
 export const validateSignIn = (input) => {

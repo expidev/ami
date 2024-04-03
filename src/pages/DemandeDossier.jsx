@@ -6,7 +6,7 @@ import InputTexte from "../components/form/InputTexte";
 import { inputList } from "../content/listeInputDemandeDossier";
 import Title from "../components/Title";
 import Button from "../components/form/Button";
-import InputContainer from "../components/form/InputContainer";
+import GroupContainer from "../components/GroupContainer";
 import Label from "../components/form/Label";
 import Error from "../components/form/Error";
 
@@ -51,7 +51,7 @@ const DemandeDossier= () => {
     }
   
     try {
-      const responseData = await VisitorApi.post('/', formValues);
+      const responseData = await VisitorApi.post('/', {...formValues, id_ami});
       console.log('Response from server:', responseData);
       navigate(`/lien_de_confirmation/${id_ami}`)
       
@@ -71,7 +71,7 @@ const DemandeDossier= () => {
         >
           {
             inputList.map((item, index) => (
-              <InputContainer key={index}>
+              <GroupContainer key={index}>
                 <Label 
                   value={item.label} 
                   name={item.name}
@@ -83,7 +83,7 @@ const DemandeDossier= () => {
                   handleChange= {handleChange}
                 />
                 <Error value={errors[item.name]} />
-              </InputContainer>
+              </GroupContainer>
             ))
           }
           <div className={style.buttonContainer}>

@@ -47,6 +47,23 @@ class DocumentApi {
         }
     }
 
+    static async getUserDocumentByAmi(id_ami, token) {
+        try {
+            const response = await axios.get(
+                `${baseURL}/documents/${id_ami}/${token}`,{
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    }}
+            );
+            return response.data
+    
+        } catch (error) {
+          console.error('Error posting data:', error);
+          throw error;
+        }
+    }
+
     static async removeDocument(id_fichier, nom_fichier) {
         try {
             const response = await axios.delete(

@@ -5,6 +5,7 @@ import Title from "../components/Title";
 import style from "./ListeAmi.module.css";
 import AmiApi from "../api/AmiApi";
 import { useNavigate } from "react-router-dom";
+import AmiMenu from "../components/AmiMenu";
 
 const ListeAmi = () => {
     const [amiList, setAmiList] = useState([])
@@ -27,21 +28,25 @@ const ListeAmi = () => {
     return (
       <>
         <Title title="Liste des AMIs"/>
-
+        <AmiMenu/>
         <div className={style.container}>
           {amiList.length > 0 &&
             <Table
-                headers={["N° AMI", "Nom de l' AMI", "Action"]}
+                headers={["Ref AMI", "Action"]}
             >
                 {amiList.length > 0 && amiList.map((item) => (
                     <tr key={item.id_ami}>
                       <td>{item.id_ami}</td>
-                      <td>{item.titre}</td>
                       <td>
                         <Button
                           type="button"
                           value="DAO"
                           handleClick={() => {navigate(`/documents/${item.id_ami}`)}}
+                        />
+                        <Button
+                          type="button"
+                          value="Email"
+                          handleClick={() => {navigate(`/superviseur/${item.id_ami}`)}}
                         />
                       </td>
                     </tr>
