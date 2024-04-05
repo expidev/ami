@@ -27,7 +27,23 @@ const DocumentsVisiteur = () => {
           console.log(err.message)
         }
       }
+      const handleDownloadZip = async (id_ami) => {
+        try {
+          const response = await DocumentApi.downloadZip(id_ami);
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'dossier.zip');
+          document.body.appendChild(link);
+          link.click();
+        } catch (err) {
+          console.log(err.message);
+        }
+      };
+
       fetchDocumentByid_ami(id_ami);
+      handleDownloadZip(id_ami);
+
     }, [])
 
     const handleDownloadDocument = async (fileType, fileName) => {

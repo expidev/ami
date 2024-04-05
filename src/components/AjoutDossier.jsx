@@ -28,12 +28,12 @@ const AjoutDossier= ({ id_ami, isNewAmi, trigger, setTrigger }) => {
   useEffect(() => {
     const fetchAmi = async (id_ami) => {
       try {
-         const newAmi = await AmiApi.getAmiById(id_ami);
-         setFormValues({
-           ...formValues, 
-           id_ami: newAmi.id_ami,
-           description: newAmi.description
-         });
+        const newAmi = await AmiApi.getAmiById(id_ami);
+        setFormValues({
+          ...formValues, 
+          id_ami: newAmi.id_ami,
+          description: newAmi.description
+        });
       } catch (err) {
           console.error("Error fetching AMI list:", err);
       }
@@ -70,11 +70,12 @@ const AjoutDossier= ({ id_ami, isNewAmi, trigger, setTrigger }) => {
     }
     try {
       const responseData = await DocumentApi.post('/ajout', formValues);
-      setTrigger(prev => !prev)
       setFiles(files[0] == 'fichier'? ['fichier0'] : ['fichier'])
+      setTrigger(prev => !prev)
       if (isNewAmi) {
         navigate(`/documents/${formValues.id_ami}`, {replace: true})
       }
+      setFormValues({id_ami: formValues.id_ami, description: formValues.description})
     } catch (error) {
       console.error('Error:', error);
     }
@@ -123,7 +124,7 @@ const AjoutDossier= ({ id_ami, isNewAmi, trigger, setTrigger }) => {
                 </GroupContainer>
 
                 <GroupContainer>
-                  <Label value="Dossier DAO" name="fichier" />
+                  <Label value="Dossier DAO" name="fichier" required={true} />
                   {
                     files.map((file) => (
                       <div key={file} >
@@ -146,6 +147,7 @@ const AjoutDossier= ({ id_ami, isNewAmi, trigger, setTrigger }) => {
                       </div>
                     ))
                   }
+                  <Error value={errors['default']} />
                   <Button
                       type="button" 
                       value="Ajouter une autre fichier"

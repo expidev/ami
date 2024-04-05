@@ -5,14 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AmiApi from "../api/AmiApi";
 
-const AmiMenu = ({setAmiList}) => {
+const AmiMenu = ({page, totalPage, setAmiList}) => {
     const [ search , setSearch ] = useState("");
     const navigate = useNavigate();
 
     const handleSearch = async (e) => {
         e.preventDefault();
         try {
-            const responseData = await AmiApi.getAmiById(search);
+            const responseData = await AmiApi.searchAmiById(search);
             setAmiList(responseData)
         }
         catch(err) {
@@ -36,24 +36,30 @@ const AmiMenu = ({setAmiList}) => {
                     >
                         <input 
                             type="search" 
-                            name="search" 
+                            name="search"
+                            value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
-                        <input type="submit" value="search"/>
+                        <input type="submit" value="Search"/>
                     </form>
                 </li>
                 <li>
                     <Button
                         type="button"
                         value="Précédent"
+                        handleClick={(e) => navigate(`/ami/${Number(page) - 1}`)}
+                        disabled={page == 1 ? true: false}
                     />
                     <Button
                         type="button"
                         value="Suivant"
+                        handleClick={(e) => navigate(`/ami/${Number(page) + 1}`)}
+                        disabled={page == totalPage ? true: false}
                     />
                 </li>
 
             </ul>
+            <p>Page: {page}/{totalPage}</p>
         </div>
     )
 }

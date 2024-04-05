@@ -63,14 +63,13 @@ const validateAmi = (text) => {
 
 const validateFile = (file) => {   
     const size = Math.round(file.size/1024);
-    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];   
+
     if (!allowedTypes.includes(file.type))
         return "Type de fichier non autorisé."
 
     if (size > (3 * 1024))
         return "Soumettre un fichier inférieur à 3MB."
-    
-        return "";
 }
 
 const validateTextarea = (text) => {
@@ -92,12 +91,16 @@ export const validateDemandeDossier = (input) => {
 
 export const validateDepotDossier = (input) => {
     const res = {}
+    let count = 0
+
     Object.keys(input).forEach(item => {
         if (item.startsWith('fichier')) {
             res[item] = validateFile(input[item]);
+            count++;
         }
     })
-
+    if (!count)
+        res["default"] = "Entrez au moins un fichier."
     res.id_ami = validateAmi(input.id_ami);
     res.description = validateTextarea(input.description);
     

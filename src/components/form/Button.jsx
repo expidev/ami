@@ -1,6 +1,6 @@
 import style from "./Button.module.css"
 
-const Button = ({type, value, handleClick}) => (
+const Button = ({type, value, handleClick, disabled}) => (
     <>
         {type == "submit" && 
             <input
@@ -14,6 +14,7 @@ const Button = ({type, value, handleClick}) => (
                 type="button"
                 className={style.button}
                 onClick={handleClick}
+                disabled={disabled}
             >
                 {value}
             </button>

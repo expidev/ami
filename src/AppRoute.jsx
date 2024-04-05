@@ -20,7 +20,7 @@ const AppRoute = ()  => (
 
         <Route element={<PrivateRoutes/>}>
             <Route 
-              path="/ami"
+              path="/ami/:page"
               element={<ListeAmi />} 
             />
             <Route 

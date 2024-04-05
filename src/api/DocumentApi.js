@@ -97,6 +97,19 @@ class DocumentApi {
           throw error;
         }  
     }
+
+    static async downloadZip(id_ami) {
+        try {
+          const response = await axios.get(
+            `${baseURL}/download/${id_ami}`,
+            { responseType: 'blob' }
+          );
+          return response;
+        } catch (error) {
+          console.error('Error downloading zip file:', error);
+          throw error;
+        }
+    }
 }
 
 export default DocumentApi;
