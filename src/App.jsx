@@ -1,9 +1,12 @@
 import "./App.css"
 import AppRoute from "./AppRoute"
+import ErrorBoundary from "./components/ErrorBoundary"
 
 const App = ()  => (
     <>
-      <AppRoute/>
+      <ErrorBoundary>
+       <AppRoute/>
+      </ErrorBoundary>
     </>
 )
 

@@ -14,19 +14,6 @@ const DocumentsVisiteur = () => {
     const [validToken, setValidToken] = useState(false);
 
     useEffect(() => {
-      const fetchDocumentByid_ami = async (id_ami) => {
-        try {
-            const response = await TokenApi.getCheckToken(token);
-            if (response.token) {
-                setValidToken(true)
-                const newDocuments = await DocumentApi.getUserDocumentByAmi(id_ami, token);
-                setDocuments(newDocuments);
-            }
-        }
-        catch(err) {
-          console.log(err.message)
-        }
-      }
       const handleDownloadZip = async (id_ami) => {
         try {
           const response = await DocumentApi.downloadZip(id_ami);
@@ -41,8 +28,23 @@ const DocumentsVisiteur = () => {
         }
       };
 
+      const fetchDocumentByid_ami = async (id_ami) => {
+        try {
+            const response = await TokenApi.getCheckToken(token);
+            if (response.token) {
+                setValidToken(true)
+                const newDocuments = await DocumentApi.getUserDocumentByAmi(id_ami, token);
+                setDocuments(newDocuments);
+                await handleDownloadZip(id_ami);
+            }
+            console.log("gooooooooooooooooooooooooo")
+        }
+        catch(err) {
+          console.log(err.message)
+        }
+      }
+
       fetchDocumentByid_ami(id_ami);
-      handleDownloadZip(id_ami);
 
     }, [])
 

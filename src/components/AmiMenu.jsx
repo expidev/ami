@@ -36,11 +36,16 @@ const AmiMenu = ({page, totalPage, setAmiList}) => {
                     >
                         <input 
                             type="search" 
+                            className={style.searchInput}
                             name="search"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
-                        <input type="submit" value="Search"/>
+                        <input 
+                            className={style.searchButton}
+                            type="submit" 
+                            value="Search"
+                        />
                     </form>
                 </li>
                 <li>

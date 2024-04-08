@@ -40,7 +40,7 @@ const SigninAdmin = () => {
             const response = await AdminApi.post('/signin', formValues);
             const { token } = response;
             AuthService.setToken(token);
-            navigate('/ami')
+            navigate('/ami/1')
         } catch (error) {
             setError(error.response.data.message || "Internal error");
         }
