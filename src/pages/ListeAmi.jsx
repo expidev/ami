@@ -24,7 +24,7 @@ const ListeAmi = () => {
       };
       
       fetchAmiList();
-    }, []); 
+    }, [page]); 
 
     useEffect(() => {
       const countPage = async () => {

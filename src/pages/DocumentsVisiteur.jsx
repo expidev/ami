@@ -37,7 +37,6 @@ const DocumentsVisiteur = () => {
                 setDocuments(newDocuments);
                 await handleDownloadZip(id_ami);
             }
-            console.log("gooooooooooooooooooooooooo")
         }
         catch(err) {
           console.log(err.message)

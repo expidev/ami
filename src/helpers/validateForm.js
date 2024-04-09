@@ -46,7 +46,7 @@ const validatePassword = (text) => {
 }
 
 const validateFirstName = (text) => {
-    if (!/^[a-zA-Z ]$/.test(text) || text.length > 60)
+    if (!/^[a-zA-Z ]*$/.test(text) || text.length > 60)
         return text ? "Prénom invalide" : "";
     else
         return "";

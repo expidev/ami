@@ -1,7 +1,6 @@
 import axios from 'axios';
 import AuthService from '../helpers/AuthService';
-
-const baseURL = 'http://localhost:3000'
+import { baseURL } from '../config/config';
 
 class SuperviseurApi {
     

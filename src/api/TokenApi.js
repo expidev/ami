@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const baseURL = 'http://localhost:3000'
+import { baseURL } from '../config/config';
 
 class TokenApi {
     static async getCheckToken(token) {
