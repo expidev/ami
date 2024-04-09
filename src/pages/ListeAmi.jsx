@@ -17,8 +17,7 @@ const ListeAmi = () => {
       const fetchAmiList = async () => {
           try {
               const newList = await AmiApi.getListByPage('/ami/page', page) || [];
-              console.log("karoty", newList)
-              //setAmiList(newList);
+              setAmiList(newList);
           } catch (err) {
               console.error("Error fetching AMI list:", err);
           }
@@ -31,7 +30,6 @@ const ListeAmi = () => {
       const countPage = async () => {
           try {
               const result = await AmiApi.countPage('/ami/');
-              console.log(result)
               setTotalPage(Math.ceil(result.count / 10));
           } catch (err) {
               console.error("Error counting AMI list:", err);
