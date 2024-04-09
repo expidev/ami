@@ -17,7 +17,7 @@ const ListeAmi = () => {
       const fetchAmiList = async () => {
           try {
               const newList = await AmiApi.getListByPage('/ami/page', page) || [];
-              console.log(newList)
+              console.log("karoty", newList)
               //setAmiList(newList);
           } catch (err) {
               console.error("Error fetching AMI list:", err);
