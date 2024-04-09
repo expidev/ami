@@ -16,8 +16,7 @@ const ListeAmi = () => {
     useEffect(() => {
       const fetchAmiList = async () => {
           try {
-              const newList = await AmiApi.getListByPage('/ami/page', page) || [];
-              console.log(newList)
+              const newList = [];
               setAmiList(newList);
           } catch (err) {
               console.error("Error fetching AMI list:", err);
@@ -53,7 +52,7 @@ const ListeAmi = () => {
             <Table
                 headers={["Ref AMI", "Action"]}
             >
-                {amiList && amiList.length > 0 && amiList.map((item) => (
+                {amiList.length > 0 && amiList.map((item) => (
                     <tr key={item.id_ami}>
                       <td>{item.id_ami}</td>
                       <td>
