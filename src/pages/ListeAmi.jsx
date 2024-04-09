@@ -17,6 +17,7 @@ const ListeAmi = () => {
       const fetchAmiList = async () => {
           try {
               const newList = await AmiApi.getListByPage('/ami/page', page) || [];
+              console.log(newList)
               setAmiList(newList);
           } catch (err) {
               console.error("Error fetching AMI list:", err);
@@ -52,7 +53,7 @@ const ListeAmi = () => {
             <Table
                 headers={["Ref AMI", "Action"]}
             >
-                {amiList.length > 0 && amiList.map((item) => (
+                {amiList && amiList.length > 0 && amiList.map((item) => (
                     <tr key={item.id_ami}>
                       <td>{item.id_ami}</td>
                       <td>
@@ -72,7 +73,7 @@ const ListeAmi = () => {
             </Table>
           }
           {
-            amiList.length == 0 &&
+            amiList && amiList.length == 0 &&
             <p style={{textAlign: "center"}}>Aucune liste d'AMI.</p>
           }
         </div>
