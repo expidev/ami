@@ -6,11 +6,17 @@ import style from "./ListeDocuments.module.css";
 import DocumentApi from "../api/DocumentApi";
 import { useParams } from "react-router-dom";
 import AjoutDossier from "../components/AjoutDossier";
+import ConfirmationModal from "../components/ConfirmationModal"; 
 
 const ListeDocuments = () => {
 
     const [documents, setDocuments] = useState([]);
-    const [ trigger, setTrigger ] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false); // State for showing/hiding confirmation popup
+    const [selectedDocument, setSelectedDocument] = useState({
+      id: "",
+      fileName: ""
+    })
+    const [refetch, setRefetch] = useState(false);
     const { id_ami } = useParams();
 
     useEffect(() => {
@@ -26,12 +32,14 @@ const ListeDocuments = () => {
         }
         fetchDocumentByid_ami(id_ami);
       }
-    }, [trigger])
+    }, [id_ami, refetch])
 
     const handleRemoveDocument = async (documentId, fileName) => {
         try {
           await DocumentApi.removeDocument(documentId, fileName);
-          setTrigger(prev => !prev);
+          setShowConfirmation(false);
+          setRefetch(prev => !prev);
+          setSelectedDocument({id: "", fileName: ""})
         } catch (err) {
           console.log(err.message);
         }
@@ -52,7 +60,6 @@ const ListeDocuments = () => {
     }
 
     return (
-
       <>
         <Title 
           title={id_ami ? `Liste des documents pour l'AMI N° ${id_ami}` :
@@ -61,14 +68,13 @@ const ListeDocuments = () => {
         />
         <div className={style.container}>
           <div className={style.editContainer}>
-            <AjoutDossier 
+            <AjoutDossier
               id_ami={id_ami}
               isNewAmi={id_ami ? false : true}
-              trigger={trigger}
-              setTrigger={setTrigger} 
+              setTrigger={setRefetch}
             />
           </div>
-          {documents.length > 0  && 
+          {documents.length > 0 && 
               <>
                 <Table
                   headers={["Intitulé", "Action"]}
@@ -85,7 +91,13 @@ const ListeDocuments = () => {
                         <Button
                           value="Supprimer"
                           type="button"
-                          handleClick={(e) => handleRemoveDocument(item.id_fichier, item.nom_fichier)}
+                          handleClick={(e) => {
+                            setShowConfirmation(true);
+                            setSelectedDocument({
+                              id: item.id_fichier,
+                              fileName: item.nom_fichier
+                            })
+                          }}
                         />
                       </td>
                     </tr>
@@ -94,8 +106,19 @@ const ListeDocuments = () => {
               </>
            }
         </div>
+        {/* Confirmation Modal */}
+        <ConfirmationModal
+          isOpen={showConfirmation}
+          onCancel={() => setShowConfirmation(false)}
+          onConfirm={() => handleRemoveDocument(
+            selectedDocument.id,
+            selectedDocument.fileName
+          )}
+        >
+          <p>Êtes-vous sûr de vouloir supprimer le document ${selectedDocument.fileName} ?</p>
+        </ConfirmationModal>
       </>
     );
-  }
-  
+}
+
 export default ListeDocuments;

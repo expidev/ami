@@ -60,6 +60,24 @@ class AdminApi {
         }
     }
 
+    static async removeAmiById(id_ami) {
+        try {
+            const response = await axios.delete(
+                `${baseURL}/ami/${id_ami}`, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + AuthService.getToken()
+                    }
+                }
+            );
+            return response
+        } catch (error) {
+          console.error('Error posting data:', error);
+          throw error;
+        }
+    }
+
     static async searchAmiById(id_ami) {
         try {
             const response = await axios.get(

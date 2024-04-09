@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Titre from "../components/Title";
 import { useParams } from "react-router-dom";
 import Table from "../components/tableau/Table";
 
-import style from "./Superviseur.module.css"
+import style from "./Superviseur.module.css";
 import SuperviseurApi from "../api/SuperviseurApi";
 import Button from "../components/form/Button";
 import AjoutEmail from "../components/AjoutEmail";
-
+import ConfirmationModal from "../components/ConfirmationModal"; 
 
 const Superviseur = () => {
     const [ superviseurList, setSuperviseurList ] = useState([]);
     const [ trigger, setTrigger ] = useState(false);
+    const [ selectedEmail, setSelectedEmail ] = useState({id: "", email: ""}); 
+    const [ showConfirmation, setShowConfirmation ] = useState(false); 
     const { id_ami } = useParams();
 
     useEffect(() => {
@@ -32,10 +34,26 @@ const Superviseur = () => {
         try {
             await SuperviseurApi.removeSuperviseur(id);
             setTrigger(prev => !prev);
+            setShowConfirmation(false); 
           } catch (err) {
             console.log(err.message);
           }
     }
+
+    const handleConfirmRemove = () => {
+        if (selectedEmailId.id) {
+            handleRemoveEmail(selectedEmailId.id);
+        }
+    };
+
+    const handleCancelRemove = () => {
+        setShowConfirmation(false);
+    };
+
+    const handleDeleteButtonClick = (id, email) => {
+        setSelectedEmail({id, email});
+        setShowConfirmation(true);
+    };
 
     return (
         <>
@@ -53,7 +71,7 @@ const Superviseur = () => {
                             <Button
                                 type="button"
                                 value="Supprimer"
-                                handleClick={() => {handleRemoveEmail(item.id)}}
+                                handleClick={() => handleDeleteButtonClick(item.id, item.email)}
                             />
                         </td>
                     </tr>
@@ -61,6 +79,14 @@ const Superviseur = () => {
             </Table>
             }
             </div>
+            {/* Confirmation Modal */}
+            <ConfirmationModal
+                isOpen={showConfirmation}
+                onCancel={handleCancelRemove}
+                onConfirm={handleConfirmRemove}
+            >
+                <p>Êtes-vous sûr de vouloir supprimer l'email {selectedEmail.email} ?</p>
+            </ConfirmationModal>
         </>
     );
 }
