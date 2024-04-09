@@ -4,7 +4,7 @@ const Table = ({headers, children}) => (
     <table className={style.table}>
         <tbody>
             <tr>
-                {headers.map((header, index) => (
+                {headers[0] && headers.map((header, index) => (
                     <th key={index}>
                         {header}
                     </th>
