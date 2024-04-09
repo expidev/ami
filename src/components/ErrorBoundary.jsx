@@ -20,7 +20,7 @@ class ErrorBoundary extends Component {
       return (
         <>
             <Titre title="Oops" />
-            <h1>Une erreur s'est produite. Veuillez essayer autre chose!</h1>
+            <h2 style={{textAlign: "center"}}>Une erreur s'est produite. Veuillez essayer autre chose!</h2>
         </>
       );
     }
