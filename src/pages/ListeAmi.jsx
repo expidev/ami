@@ -30,6 +30,7 @@ const ListeAmi = () => {
       const countPage = async () => {
           try {
               const result = await AmiApi.countPage('/ami/');
+              console.log(result)
               setTotalPage(Math.ceil(result.count / 10));
           } catch (err) {
               console.error("Error counting AMI list:", err);
