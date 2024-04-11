@@ -19,7 +19,7 @@ const Superviseur = () => {
     useEffect(() => {
         const fetchSuperviseur = async () => {
             try {
-                const response = await SuperviseurApi.getSuperviseur(`/superviseur/${id_ami}`);
+                const response = await SuperviseurApi.getSuperviseur('/superviseur/', id_ami);
                 setSuperviseurList(response);
             }
             catch (err)
@@ -41,8 +41,8 @@ const Superviseur = () => {
     }
 
     const handleConfirmRemove = () => {
-        if (selectedEmailId.id) {
-            handleRemoveEmail(selectedEmailId.id);
+        if (selectedEmail.id) {
+            handleRemoveEmail(selectedEmail.id);
         }
     };
 

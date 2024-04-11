@@ -11,7 +11,7 @@ import Error from "./form/Error";
 import DocumentApi from "../api/DocumentApi";
 import AmiApi from "../api/AmiApi";
 import FileInput from "./form/FileInput";
-import EmailComponent from "./EmailComponent";
+import DemandeLink from "./DemandeLink";
 import { useNavigate } from "react-router-dom";
 
 const AjoutDossier= ({ id_ami, isNewAmi, trigger, setTrigger }) => {
@@ -94,7 +94,7 @@ const AjoutDossier= ({ id_ami, isNewAmi, trigger, setTrigger }) => {
   return (
     <>
         <div className={style.container}>
-            {!isNewAmi && <EmailComponent id_ami={formValues['id_ami']} />}
+            {!isNewAmi && <DemandeLink id_ami={formValues['id_ami']} />}
             <form
                 className={style.formContainer}
                 onSubmit={handleSubmit}

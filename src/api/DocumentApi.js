@@ -30,6 +30,7 @@ class DocumentApi {
 
     static async getDocumentByAmi(id_ami) {
         try {
+            id_ami = encodeURIComponent(id_ami);
             const response = await axios.get(
                 `${baseURL}/documents/${id_ami}`,{
                     headers: {
@@ -48,6 +49,7 @@ class DocumentApi {
 
     static async getUserDocumentByAmi(id_ami, token) {
         try {
+            id_ami = encodeURIComponent(id_ami);
             const response = await axios.get(
                 `${baseURL}/documents/${id_ami}/${token}`,{
                     headers: {
@@ -99,6 +101,7 @@ class DocumentApi {
 
     static async downloadZip(id_ami) {
         try {
+          id_ami = encodeURIComponent(id_ami);
           const response = await axios.get(
             `${baseURL}/download/${id_ami}`,
             { responseType: 'blob' }

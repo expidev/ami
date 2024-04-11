@@ -24,6 +24,8 @@ const DemandeDossier= () => {
     email_entreprise: "",
     telephone: ""
   });
+  const [ isLoading, setIsLoading ] = useState(false)
+  const [ isFailed, setIsFailed ] = useState(false)
 
   const [ errors, setErrors ] = useState({});
 
@@ -49,13 +51,17 @@ const DemandeDossier= () => {
         return;
       }
     }
+    setIsLoading(true);
+    setIsFailed(false);
   
     try {
       const responseData = await VisitorApi.post('/', {...formValues, id_ami});
       console.log('Response from server:', responseData);
-      navigate(`/lien_de_confirmation/${id_ami}`)
-      
+      navigate(`/lien_de_confirmation/${encodeURIComponent(id_ami)}`)
+      setIsLoading(false)
     } catch (error) {
+      setIsLoading(false)
+      setIsFailed(true)
       console.error('Error:', error);
     }
   };
@@ -91,6 +97,15 @@ const DemandeDossier= () => {
               type="submit"
               value="Demander"
             />
+            { isLoading && (
+              <div>
+                <div>
+                  <p style={{textAlign:"left"}}>...En cours</p>
+                </div>
+              </div>
+            )
+            }
+            {isFailed && <Error value="Echoué"/>}
           </div>
         </form>
       </div>

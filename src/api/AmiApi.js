@@ -44,6 +44,7 @@ class AdminApi {
 
     static async getAmiById(id_ami) {
         try {
+            id_ami = encodeURIComponent(id_ami)
             const response = await axios.get(
                 `${baseURL}/ami/${id_ami}`, {
                     headers: {
@@ -62,6 +63,7 @@ class AdminApi {
 
     static async removeAmiById(id_ami) {
         try {
+            id_ami = encodeURIComponent(id_ami)
             const response = await axios.delete(
                 `${baseURL}/ami/${id_ami}`, {
                     headers: {
@@ -80,8 +82,9 @@ class AdminApi {
 
     static async searchAmiById(id_ami) {
         try {
+            id_ami = encodeURIComponent(id_ami)
             const response = await axios.get(
-                `${baseURL}/search/${id_ami}`, {
+                `${baseURL}/search/${encodeURIComponent(id_ami)}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',

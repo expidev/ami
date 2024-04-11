@@ -80,12 +80,12 @@ const ListeAmi = () => {
                         <Button
                           type="button"
                           value="DAO"
-                          handleClick={() => {navigate(`/documents/${item.id_ami}`)}}
+                          handleClick={() => {navigate(`/documents/${encodeURIComponent(item.id_ami)}`)}}
                         />
                         <Button
                           type="button"
                           value="Email"
-                          handleClick={() => {navigate(`/superviseur/${item.id_ami}`)}}
+                          handleClick={() => {navigate(`/superviseur/${encodeURIComponent(item.id_ami)}`)}}
                         />
                         <Button
                           type="button"

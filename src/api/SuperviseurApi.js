@@ -4,10 +4,11 @@ import { baseURL } from '../config/config';
 
 class SuperviseurApi {
     
-    static async getSuperviseur(endpoint) {
+    static async getSuperviseur(endpoint, id_ami) {
         try {
+            id_ami = encodeURIComponent(id_ami)
             const response = await axios.get(
-                `${baseURL}${endpoint}`, {
+                `${baseURL}${endpoint}${id_ami}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',

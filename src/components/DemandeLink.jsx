@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import style from './EmailComponent.module.css';
+import style from './DemandeLink.module.css';
 
 const EmailComponent = ({ id_ami }) => {
   const [copied, setCopied] = useState(false);
@@ -20,7 +20,7 @@ const EmailComponent = ({ id_ami }) => {
         ref={inputRef}
         className={style.emailInput}
         type="email"
-        value={`${window.location.origin}/demande/${id_ami}`}
+        value={`${window.location.origin}/demande/${encodeURIComponent(id_ami)}`}
         disabled
       />
       <button className={style.copyButton} onClick={handleCopy}>{copied ? 'Copied!' : 'Copy'}</button>
