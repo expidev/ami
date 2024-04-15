@@ -87,10 +87,12 @@ const ListeDocuments = () => {
               setTrigger={setRefetch}
             />
           </div>
-          <div className={style.description}>
-            <h2 className={style.subtitle}>Description</h2>
-            <p>{ami.description ? ami.description : "Pas de description."}</p>
-          </div>
+          {( id_ami &&
+            <div className={style.description}>
+              <h2 className={style.subtitle}>Description</h2>
+              <p>{ami.description ? ami.description : "Pas de description."}</p>
+            </div>
+          )}
           {documents.length > 0 && 
               <>
                 <Table

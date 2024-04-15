@@ -10,7 +10,7 @@ import ConfirmationModal from "../components/ConfirmationModal";
 
 const ListeAmi = () => {
     const [amiList, setAmiList] = useState([]);
-    const [totalPage, setTotalPage] = useState(0);
+    const [totalPage, setTotalPage] = useState(1);
     const [selectedAmiId, setSelectedAmiId] = useState(null);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const { page } = useParams();
@@ -33,7 +33,7 @@ const ListeAmi = () => {
       const countPage = async () => {
           try {
               const result = await AmiApi.countPage('/ami/');
-              setTotalPage(Math.ceil(result.count / 10));
+              setTotalPage(Math.ceil(result.count / 10) || 1);
           } catch (err) {
               console.error("Error counting AMI list:", err);
           }

@@ -4,6 +4,7 @@ import Button from "../components/form/Button";
 import Table from "../components/tableau/Table";
 import style from "./ListeDocuments.module.css";
 import DocumentApi from "../api/DocumentApi";
+import AmiApi from "../api/AmiApi";
 import { useParams } from "react-router-dom";
 import TokenApi from "../api/TokenApi";
 
@@ -14,8 +15,33 @@ const DocumentsVisiteur = () => {
     const {id_ami, token} = useParams();
     const [validToken, setValidToken] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [trigger, setTrigger] = useState(false);
 
     useEffect(() => {
+      const fetchData = async (id_ami) => {
+        try {
+          const response = await TokenApi.getCheckToken(token);
+          if (response.token) {
+            setValidToken(true);
+            const newDocuments = await DocumentApi.getUserDocumentByAmi(id_ami, token);
+            setDocuments(newDocuments);
+            await handleDownloadZip(id_ami);
+          }
+          setIsLoading(false);
+        } catch (err) {
+          console.log(err.message);
+        }
+      };
+    
+      const getAmiById = async (id_ami) => {
+        try {
+          const newAmi = await AmiApi.getAmiById(id_ami);
+          setAmi(newAmi);
+        } catch (err) {
+          console.log(err.message);
+        }
+      };
+    
       const handleDownloadZip = async (id_ami) => {
         try {
           const response = await DocumentApi.downloadZip(id_ami);
@@ -29,37 +55,11 @@ const DocumentsVisiteur = () => {
           console.log(err.message);
         }
       };
-
-      const fetchDocumentByid_ami = async (id_ami) => {
-        try {
-            const response = await TokenApi.getCheckToken(token);
-            if (response.token) {
-                setValidToken(true)
-                const newDocuments = await DocumentApi.getUserDocumentByAmi(id_ami, token);
-                setDocuments(newDocuments);
-                await handleDownloadZip(id_ami);
-            }
-            setIsLoading(false)
-        }
-        catch(err) {
-          console.log(err.message)
-        }
-      }
-      
-      const getAmiById = async(id_ami) => {
-        try {
-          const newAmi = await AmiApi.getAmiById(id_ami);
-          setAmi(newAmi);
-        }
-        catch(err) {
-          console.log(err.message)
-        }
-      }
-
-      fetchDocumentByid_ami(id_ami);
+    
+      fetchData(id_ami);
       getAmiById(id_ami);
-    }, [])
-
+    }, [trigger]); 
+    
     const handleDownloadDocument = async (fileType, fileName) => {
       try {
         const response = await DocumentApi.downloadDocument(fileType, fileName);

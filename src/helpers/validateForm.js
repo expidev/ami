@@ -91,16 +91,11 @@ export const validateDemandeDossier = (input) => {
 
 export const validateDepotDossier = (input) => {
     const res = {}
-    let count = 0
-
     Object.keys(input).forEach(item => {
         if (item.startsWith('fichier')) {
             res[item] = validateFile(input[item]);
-            count++;
         }
     })
-    if (!count)
-        res["default"] = "Entrez au moins un fichier."
     res.id_ami = validateAmi(input.id_ami);
     res.description = validateTextarea(input.description);
     

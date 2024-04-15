@@ -147,7 +147,6 @@ const AjoutDossier= ({ id_ami, isNewAmi, trigger, setTrigger }) => {
                       </div>
                     ))
                   }
-                  <Error value={errors['default']} />
                   <Button
                       type="button" 
                       value="Ajouter une autre fichier"
