@@ -4,6 +4,7 @@ import Button from "../components/form/Button";
 import Table from "../components/tableau/Table";
 import style from "./ListeDocuments.module.css";
 import DocumentApi from "../api/DocumentApi";
+import AmiApi from "../api/AmiApi";
 import { useParams } from "react-router-dom";
 import AjoutDossier from "../components/AjoutDossier";
 import ConfirmationModal from "../components/ConfirmationModal"; 
@@ -11,6 +12,7 @@ import ConfirmationModal from "../components/ConfirmationModal";
 const ListeDocuments = () => {
 
     const [documents, setDocuments] = useState([]);
+    const [ami, setAmi] = useState({})
     const [showConfirmation, setShowConfirmation] = useState(false); // State for showing/hiding confirmation popup
     const [selectedDocument, setSelectedDocument] = useState({
       id: "",
@@ -30,7 +32,18 @@ const ListeDocuments = () => {
             console.log(err.message)
           }
         }
+
+        const getAmiById = async(id_ami) => {
+          try {
+            const newAmi = await AmiApi.getAmiById(id_ami);
+            setAmi(newAmi);
+          }
+          catch(err) {
+            console.log(err.message)
+          }
+        }
         fetchDocumentByid_ami(id_ami);
+        getAmiById(id_ami);
       }
     }, [id_ami, refetch])
 
@@ -73,6 +86,10 @@ const ListeDocuments = () => {
               isNewAmi={id_ami ? false : true}
               setTrigger={setRefetch}
             />
+          </div>
+          <div className={style.description}>
+            <h2 className={style.subtitle}>Description</h2>
+            <p>{ami.description ? ami.description : "Pas de description."}</p>
           </div>
           {documents.length > 0 && 
               <>

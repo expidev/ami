@@ -10,6 +10,7 @@ import TokenApi from "../api/TokenApi";
 const DocumentsVisiteur = () => {
 
     const [documents, setDocuments] = useState([]);
+    const [ami, setAmi] = useState({})
     const {id_ami, token} = useParams();
     const [validToken, setValidToken] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -44,9 +45,19 @@ const DocumentsVisiteur = () => {
           console.log(err.message)
         }
       }
+      
+      const getAmiById = async(id_ami) => {
+        try {
+          const newAmi = await AmiApi.getAmiById(id_ami);
+          setAmi(newAmi);
+        }
+        catch(err) {
+          console.log(err.message)
+        }
+      }
 
       fetchDocumentByid_ami(id_ami);
-
+      getAmiById(id_ami);
     }, [])
 
     const handleDownloadDocument = async (fileType, fileName) => {
@@ -71,6 +82,10 @@ const DocumentsVisiteur = () => {
           {isLoading &&
             <p style={{textAlign: "center"}}>Loading ...</p>
           }
+          <div className={style.description}>
+            <h2 className={style.subtitle}>Description</h2>
+            <p>{ami.description ? ami.description : "Pas de description."}</p>
+          </div>
           {validToken && documents.length > 0  && 
               <>
                 
