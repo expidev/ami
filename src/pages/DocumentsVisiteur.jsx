@@ -12,6 +12,7 @@ const DocumentsVisiteur = () => {
     const [documents, setDocuments] = useState([]);
     const {id_ami, token} = useParams();
     const [validToken, setValidToken] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
       const handleDownloadZip = async (id_ami) => {
@@ -37,6 +38,7 @@ const DocumentsVisiteur = () => {
                 setDocuments(newDocuments);
                 await handleDownloadZip(id_ami);
             }
+            setIsLoading(false)
         }
         catch(err) {
           console.log(err.message)
@@ -66,8 +68,12 @@ const DocumentsVisiteur = () => {
       <>
         <Title title={`Liste des documents pour l'AMI N° ${id_ami}`}/>
         <div className={style.container}>
+          {isLoading &&
+            <p style={{textAlign: "center"}}>Loading ...</p>
+          }
           {validToken && documents.length > 0  && 
               <>
+                
                 <Table
                   headers={["Intitulé", "Action"]}
                 >

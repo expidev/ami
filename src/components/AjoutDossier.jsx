@@ -73,7 +73,7 @@ const AjoutDossier= ({ id_ami, isNewAmi, trigger, setTrigger }) => {
       setFiles(files[0] == 'fichier'? ['fichier0'] : ['fichier'])
       setTrigger(prev => !prev)
       if (isNewAmi) {
-        navigate(`/documents/${formValues.id_ami}`, {replace: true})
+        navigate(`/documents/${encodeURIComponent(formValues.id_ami)}`, {replace: true})
       }
       setFormValues({id_ami: formValues.id_ami, description: formValues.description})
     } catch (error) {
