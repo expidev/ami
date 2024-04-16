@@ -1,9 +1,10 @@
 .title {
-    background-color: #034C8C;
+    background-color: #00408c;
     color: #fff;
-    padding: 1.2em;
+    text-transform: uppercase;
+    font-weight: normal;
+    padding: 1em;
     text-align: center;
-    font-size: 1.2em;
-    margin: 0 0 50px 0;
-    box-shadow: 0 6px 4px 1px #1615151a;
+    font-size: 1em;
+    margin-bottom: 100px;
 }

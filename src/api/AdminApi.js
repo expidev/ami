@@ -10,6 +10,14 @@ class AdminApi {
         );
         return response.data
     }
+
+    static async logout() {
+        await axios.post(`${baseURL}/logout`, null, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+    }
 }
 
 export default AdminApi;

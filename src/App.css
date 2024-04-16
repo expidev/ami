@@ -1,9 +1,12 @@
+
+
 *, *::before, *::after {
     box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: helvetica, arial, sans-serif;
   margin: 0;
+  background-color: #fff;
   overflow-y: scroll;
 }

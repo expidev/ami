@@ -1,0 +1,24 @@
+.navigation {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    font-size: 1em;
+    padding: 0 1em;
+}
+
+.navigation li {
+    list-style-type: none;
+}
+
+.link a {
+    text-decoration: none;
+}
+
+.link a:visited {
+    color: initial;
+}
+
+.link a:hover {
+    color: #034C8C;
+    text-decoration: underline;
+}

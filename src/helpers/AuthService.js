@@ -1,4 +1,3 @@
-// Authentication service that handles token storage and usage
 class AuthService {
     static setToken(token) {
         localStorage.setItem('token', token);

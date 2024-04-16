@@ -2,7 +2,7 @@ import axios from 'axios';
 import AuthService from '../helpers/AuthService';
 import { baseURL } from '../config/config';
 
-class AdminApi {
+class AmiApi {
     
     static async getListByPage(endpoint, page) {
         try {
@@ -100,4 +100,4 @@ class AdminApi {
     }
 }
 
-export default AdminApi;
+export default AmiApi;
