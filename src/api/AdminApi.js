@@ -3,9 +3,9 @@ import { baseURL } from '../config/config';
 
 class AdminApi {
     
-    static async post(endpoint, body) {
+    static async post(body) {
         const response = await axios.post(
-            `${baseURL}${endpoint}`, 
+            `${baseURL}/signin`, 
             body
         );
         return response.data

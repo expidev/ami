@@ -62,10 +62,11 @@ const Superviseur = () => {
             <div className={style.container}>
             {superviseurList.length > 0 &&
             <Table
-                headers={["Email", "Action"]}
+                headers={["Nom", "Email", "Action"]}
             >
                 {superviseurList.length > 0 && superviseurList.map((item) => (
                     <tr key={item.id}>
+                        <td>{item.nom}</td>
                         <td>{item.email}</td>
                         <td>
                             <Button
@@ -79,7 +80,6 @@ const Superviseur = () => {
             </Table>
             }
             </div>
-            {/* Confirmation Modal */}
             <ConfirmationModal
                 isOpen={showConfirmation}
                 onCancel={handleCancelRemove}

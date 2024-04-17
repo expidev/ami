@@ -15,7 +15,6 @@ const DocumentsVisiteur = () => {
     const {id_ami, token} = useParams();
     const [validToken, setValidToken] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [trigger, setTrigger] = useState(false);
 
     useEffect(() => {
       const fetchData = async (id_ami) => {
@@ -27,9 +26,11 @@ const DocumentsVisiteur = () => {
             setDocuments(newDocuments);
             await handleDownloadZip(id_ami);
           }
-          setIsLoading(false);
+      
         } catch (err) {
           console.log(err.message);
+        } finally {
+          setIsLoading(false);
         }
       };
     
@@ -58,7 +59,7 @@ const DocumentsVisiteur = () => {
     
       fetchData(id_ami);
       getAmiById(id_ami);
-    }, [trigger]); 
+    }, []); 
     
     const handleDownloadDocument = async (fileType, fileName) => {
       try {

@@ -124,7 +124,7 @@ const AjoutDossier= ({ id_ami, isNewAmi, trigger, setTrigger }) => {
                 </GroupContainer>
 
                 <GroupContainer>
-                  <Label value="Dossier DAO" name="fichier" required={true} />
+                  <Label value="Dossier DAO" name="fichier" />
                   {
                     files.map((file) => (
                       <div key={file} >

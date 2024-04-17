@@ -1,12 +1,11 @@
 .container {
-  padding: 12px;
+  max-width: 700px;
+  margin: auto;
 }
 
 .formContainer {
   display: flex;
   flex-direction: column;
-  max-width: 700px;
-  margin: auto;
   margin-top: 20px;
   padding: 20px;
   border: 1px solid #ccc;

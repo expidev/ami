@@ -57,7 +57,7 @@ const DemandeDossier= () => {
     try {
       const responseData = await VisitorApi.post('/', {...formValues, id_ami});
       console.log('Response from server:', responseData);
-      navigate(`/lien_de_confirmation/${encodeURIComponent(id_ami)}`)
+      navigate(`/lien_de_confirmation/${encodeURIComponent(id_ami)}`, {replace: true})
       setIsLoading(false)
     } catch (error) {
       setIsLoading(false)

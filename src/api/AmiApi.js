@@ -4,10 +4,10 @@ import { baseURL } from '../config/config';
 
 class AmiApi {
     
-    static async getListByPage(endpoint, page) {
+    static async getListByPage(page) {
         try {
             const response = await axios.get(
-                `${baseURL}${endpoint}/${page}`, {
+                `${baseURL}/ami/page/${page}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
@@ -23,10 +23,10 @@ class AmiApi {
         }
     }
 
-    static async countPage(endpoint) {
+    static async countPage() {
         try {
             const response = await axios.get(
-                `${baseURL}${endpoint}`, {
+                `${baseURL}/ami/`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',

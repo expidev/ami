@@ -11,7 +11,7 @@ const PrivateRoutes = () => {
         try {
             await AdminApi.logout();
             AuthService.removeToken();
-            navigate('/signin');
+            navigate('/admin');
         } catch (error) {
             console.error('Error logging out:', error);
         }
@@ -31,7 +31,7 @@ const PrivateRoutes = () => {
                         <Outlet/> 
                     </>
                 )
-                : <Navigate to="/signin"/>}
+                : <Navigate to="/admin"/>}
         </>
     )
 }

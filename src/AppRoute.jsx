@@ -15,7 +15,7 @@ const AppRoute = ()  => (
     <>
       <Routes>
         <Route 
-          path="/signin"
+          path="/admin"
           element={<SigninAdmin />}
         />
 
@@ -43,10 +43,6 @@ const AppRoute = ()  => (
               path="/superviseur/:id_ami"
               element={<Superviseur />} 
             />
-            <Route 
-              path="*"
-              element={<NotFound />} 
-            />
         </Route>
 
 
@@ -65,6 +61,11 @@ const AppRoute = ()  => (
         <Route 
           path="/demande/:id_ami" 
           element={<DemandeDossier />}
+        />
+
+        <Route 
+          path="*"
+          element={<NotFound />} 
         />
       </Routes>
     </>

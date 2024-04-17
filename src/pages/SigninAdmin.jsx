@@ -37,7 +37,7 @@ const SigninAdmin = () => {
                 setError(error);
                 return;
             }
-            const response = await AdminApi.post('/signin', formValues);
+            const response = await AdminApi.post(formValues);
             const { token } = response;
             AuthService.setToken(token);
             navigate('/ami/1')

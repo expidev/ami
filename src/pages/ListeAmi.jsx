@@ -7,11 +7,13 @@ import AmiApi from "../api/AmiApi";
 import { useNavigate, useParams } from "react-router-dom";
 import AmiMenu from "../components/AmiMenu";
 import ConfirmationModal from "../components/ConfirmationModal";
+import Error from "../components/form/Error";
 
 const ListeAmi = () => {
     const [amiList, setAmiList] = useState([]);
     const [totalPage, setTotalPage] = useState(1);
     const [selectedAmiId, setSelectedAmiId] = useState(null);
+    const [error, setError] = useState(false)
     const [showConfirmation, setShowConfirmation] = useState(false);
     const { page } = useParams();
     const navigate = useNavigate();
@@ -19,10 +21,11 @@ const ListeAmi = () => {
     useEffect(() => {
       const fetchAmiList = async () => {
           try {
-              const newList = await AmiApi.getListByPage('/ami/page', page) || [];
+              setError(false)
+              const newList = await AmiApi.getListByPage(page) || [];
               setAmiList(newList);
           } catch (err) {
-              console.error("Error fetching AMI list:", err);
+              setError(true)
           }
       };
       
@@ -32,7 +35,7 @@ const ListeAmi = () => {
     useEffect(() => {
       const countPage = async () => {
           try {
-              const result = await AmiApi.countPage('/ami/');
+              const result = await AmiApi.countPage();
               setTotalPage(Math.ceil(result.count / 10) || 1);
           } catch (err) {
               console.error("Error counting AMI list:", err);
@@ -98,14 +101,19 @@ const ListeAmi = () => {
             </Table>
           }
           {
-            amiList && amiList.length === 0 &&
+            amiList && !error && amiList.length === 0 &&
             <p style={{textAlign: "center"}}>Aucune liste d'AMI.</p>
           }
+          {
+            error &&
+            (
+              <div style={{textAlign: "center"}}><Error value="Erreur lors de la récupération de la liste."/></div>
+            )
+          }
         </div>
-        {/* Confirmation Modal */}
         <ConfirmationModal
-            isOpen={showConfirmation} // Show modal if showConfirmation is true
-            onCancel={() => setShowConfirmation(false)} // Reset selected AMI ID and hide modal on cancel
+            isOpen={showConfirmation}
+            onCancel={() => setShowConfirmation(false)}
             onConfirm={handleRemoveAmi} // Remove AMI on confirm
         >
             <p>Êtes-vous sûr de vouloir supprimer cet AMI ?</p>
