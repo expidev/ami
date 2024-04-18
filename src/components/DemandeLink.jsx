@@ -23,7 +23,7 @@ const EmailComponent = ({ id_ami }) => {
         value={`${window.location.origin}/demande/${encodeURIComponent(id_ami)}`}
         disabled
       />
-      <button className={style.copyButton} onClick={handleCopy}>{copied ? 'Copied!' : 'Copy'}</button>
+      <button className={style.copyButton} onClick={handleCopy}>{copied ? 'Copié!' : 'Copier'}</button>
     </div>
   );
 };
