@@ -12,7 +12,9 @@ import ConfirmationModal from "../components/ConfirmationModal";
 const ListeDocuments = () => {
 
     const [documents, setDocuments] = useState([]);
-    const [ami, setAmi] = useState({})
+    const [ami, setAmi] = useState({
+      description: ""
+    })
     const [showConfirmation, setShowConfirmation] = useState(false); // State for showing/hiding confirmation popup
     const [selectedDocument, setSelectedDocument] = useState({
       id: "",
@@ -90,7 +92,7 @@ const ListeDocuments = () => {
           {( id_ami &&
             <div className={style.description}>
               <h2 className={style.subtitle}>Description</h2>
-              <p>{ami.description ? ami.description : "Pas de description."}</p>
+              <p>{ami ? ami.description : "Pas de description."}</p>
             </div>
           )}
           {documents.length > 0 && 

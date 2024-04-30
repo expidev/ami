@@ -32,7 +32,7 @@ const validateCinOrNif = (cinOrNif) => {
 const validateName = (text) => {
     if (!text)
         return `Nom obligatoire.`;
-    else if (!/^[a-zA-Z ]+$/.test(text) || text.length > 60)
+    else if (!/^[a-zA-Z0-9 ]+$/.test(text) || text.length > 60)
         return "Nom invalide";
     else
         return "";
@@ -74,7 +74,7 @@ const validateFile = (file) => {
 
 const validateTextarea = (text) => {
     if (text.length > 2000)
-        return text ? "Description invalide" : "";
+        return text ? "Pas plus de 2000 caractères" : "";
     else
         return "";
 }
