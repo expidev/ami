@@ -5,10 +5,45 @@ const EmailComponent = ({ id_ami }) => {
   const [copied, setCopied] = useState(false);
   const inputRef = useRef(null);
 
+  const handleCopyFallback = (text) => {
+    // Create a temporary textarea element
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+
+    // Select the text inside the textarea
+    textarea.select();
+
+    try {
+        // Copy the selected text to the clipboard
+        document.execCommand('copy');
+        console.log('Text copied to clipboard');
+        setCopied(true);
+    } catch (error) {
+        console.error('Failed to copy text to clipboard:', error);
+    } finally {
+        // Remove the temporary textarea from the DOM
+        document.body.removeChild(textarea);
+    }
+}; 
+
   const handleCopy = () => {
     const emailValue = inputRef.current.value;
-    navigator.clipboard.writeText(emailValue);
-    setCopied(true);
+    if (!navigator.clipboard) {
+      navigator.clipboard.writeText(emailValue)
+        .then(() => {
+          console.log('Text copied to clipboard');
+          setCopied(true);
+        })
+        .catch((error) => {
+            console.error('Failed to copy text to clipboard:', error);
+            // Fallback to alternative method if clipboard API is not available
+            handleCopyFallback(emailValue);
+        });
+    } else {
+        handleCopyFallback(emailValue);
+    }
+
     setTimeout(() => {
       setCopied(false);
     }, 2000);
