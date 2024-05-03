@@ -10,13 +10,14 @@ const validateEmail = (email) => {
         return "";
 }
 
-const validateContact = (contact) => {
+const validateContact = (contact, required) => {
     const pattern = /^[0+][0-9 ]{9,16}$/;
     if (!contact)
-        return "Contact obligatoire."
-    else if (!pattern.test(contact))
-        return "Contact invalide."
-    else
+        return required ? "Contact obligatoire." : ""
+    else if (!pattern.test(contact)) {
+        return "Numéro de téléphone invalide."
+    }
+    else 
         return "";
 }
 
@@ -32,7 +33,7 @@ const validateCinOrNif = (cinOrNif) => {
 const validateName = (text) => {
     if (!text)
         return `Nom obligatoire.`;
-    else if (!/^[a-zA-Z0-9 ]+$/.test(text) || text.length > 60)
+    else if (!/^[a-zA-Z0-9._ -]+$/.test(text) || text.length > 60)
         return "Nom invalide";
     else
         return "";
@@ -85,7 +86,9 @@ export const validateDemandeDossier = (input) => {
         prenom: validateFirstName(input.prenom),
         id_candidat: validateCinOrNif(input.cin_nif),
         email: validateEmail(input.email_entreprise),
-        contact: validateContact(input.telephone)
+        telephone1: validateContact(input.telephone1, true),
+        telephone2: validateContact(input.telephone2, false),
+        telephone3: validateContact(input.telephone3, false)
     }
 }
 

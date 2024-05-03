@@ -22,7 +22,9 @@ const DemandeDossier= () => {
     prenom: "",
     cin_nif: "",
     email_entreprise: "",
-    telephone: ""
+    telephone1: "",
+    telephone2: "",
+    telephone3: ""
   });
   const [ isLoading, setIsLoading ] = useState(false)
   const [ isFailed, setIsFailed ] = useState(false)
@@ -69,12 +71,13 @@ const DemandeDossier= () => {
 
   return (
     <>
-      <Title title={`Dossiers pour l'AMI N° ${id_ami}`} />
+      <Title title={`Formulaire de téléchargement de dossiers pour l'appel d'offre ${id_ami}`} />
       <div className={style.container}>
         <form 
           className={style.formContainer}
           onSubmit={handleSubmit}
         >
+          <p style={{color: "rgb(199, 78, 30)"}}>Les champs marqués avec (*) sont obligatoires.</p>
           {
             inputList.map((item, index) => (
               <GroupContainer key={index}>

@@ -42,7 +42,7 @@ const SigninAdmin = () => {
             AuthService.setToken(token);
             navigate('/ami/1')
         } catch (error) {
-            setError(error.response.data.message || "Internal error");
+            setError(error.response ? error.response.data.message : "Internal error");
         }
     }
 

@@ -74,7 +74,7 @@ const ListeAmi = () => {
         <div className={style.container}>
           {amiList.length > 0 &&
             <Table
-                headers={["Ref AMI", "Action"]}
+                headers={["Ref Appel d'offre", "Action"]}
             >
                 {amiList.map((item) => (
                     <tr key={item.id_ami}>

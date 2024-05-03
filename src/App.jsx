@@ -1,11 +1,13 @@
 import "./App.css"
 import AppRoute from "./AppRoute"
 import ErrorBoundary from "./components/ErrorBoundary"
+import Navigation from "./components/Navigation"
 
 const App = ()  => (
     <>
       <ErrorBoundary>
-       <AppRoute/>
+          <Navigation />
+          <AppRoute/>
       </ErrorBoundary>
     </>
 )

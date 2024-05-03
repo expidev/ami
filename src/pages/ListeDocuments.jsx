@@ -77,7 +77,7 @@ const ListeDocuments = () => {
     return (
       <>
         <Title 
-          title={id_ami ? `Liste des documents pour l'AMI N° ${id_ami}` :
+          title={id_ami ? `Liste des documents pour l'appel d'offre ${id_ami}` :
             "Ajout de DAO pour un AMI"
           }
         />

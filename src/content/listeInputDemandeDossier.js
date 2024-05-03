@@ -14,10 +14,10 @@ export const inputList = [
       required: false
     },
     {
-      label: "N° CIN ou NIF",
+      label: "N° NIF ou CIN",
       type: "text",
       name: "cin_nif",
-      placeholder: "Entrez votre N° CIN ou NIF",
+      placeholder: "Entrez votre N° NIF ou CIN",
       required: true
     },
     {
@@ -28,10 +28,24 @@ export const inputList = [
       required: true
     },
     {
-      label: "Contact",
+      label: "Telephone 1",
       type: "text",
-      name: "telephone",
+      name: "telephone1",
       placeholder: "Entrez votre numéro de téléphone",
       required: true
+    },
+    {
+      label: "Telephone 2",
+      type: "text",
+      name: "telephone2",
+      placeholder: "Entrez une autre numéro de téléphone",
+      required: false
+    },
+    {
+      label: "Telephone 3",
+      type: "text",
+      name: "telephone3",
+      placeholder: "Entrez une autre numéro de téléphone",
+      required: false
     }
 ];

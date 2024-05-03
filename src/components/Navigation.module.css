@@ -6,6 +6,17 @@
     padding: 0 1em;
 }
 
+.image {
+    width: 90%;
+}
+
+.navigationContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
 .navigation li {
     list-style-type: none;
 }

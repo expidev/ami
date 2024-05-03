@@ -57,7 +57,7 @@ const Superviseur = () => {
 
     return (
         <>
-            <Titre title={`Liste des superviseurs pour l'AMI N° ${id_ami}`} />
+            <Titre title={`Liste des superviseurs pour l' appel d' offre ${id_ami}`} />
             <AjoutEmail id_ami={id_ami} setTrigger={setTrigger}/>
             <div className={style.container}>
             {superviseurList.length > 0 &&
