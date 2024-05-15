@@ -1,24 +1,24 @@
 export const inputList = [
     {
-      label: "Nom de l'entreprise ou du Candidat",
+      label: "Nom",
       type: "text",
       name: "nom",
-      placeholder: "Entrez votre notre nom d'entreprise ou votre nom",
+      placeholder: "Entrez votre nom",
       required: true
     },
     {
-      label: "Prénom (Si personne physique)",
+      label: "Adresse",
       type: "text",
-      name: "prenom",
-      placeholder: "Entrez votre prénom si vous avez entré(e) votre nom",
-      required: false
+      name: "adresse",
+      placeholder: "Entrez votre adresse",
+      required: true
     },
     {
       label: "N° NIF ou CIN",
       type: "text",
       name: "cin_nif",
       placeholder: "Entrez votre N° NIF ou CIN",
-      required: true
+      required: false
     },
     {
       label: "Email",

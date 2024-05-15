@@ -18,6 +18,7 @@ import VisitorApi from "../api/VisitorApi.js";
 const DemandeDossier= () => {
 
   const [ formValues, setFormValues ] = useState({
+    type: "entreprise",
     nom: "",
     prenom: "",
     cin_nif: "",
@@ -78,11 +79,49 @@ const DemandeDossier= () => {
           onSubmit={handleSubmit}
         >
           <p style={{color: "rgb(199, 78, 30)"}}>Les champs marqués avec (*) sont obligatoires.</p>
+          <GroupContainer>
+                <Label 
+                  value="Type"
+                  name="type"
+                  required={true}
+                />
+           <fieldset className={style.radioFieldset}>
+              <div className={style.radioContainer}>
+                  <label className={style.radioLabel}>
+                      <input
+                        type="radio"
+                        className={style.radioInput}
+                        checked={formValues.type === "entreprise"}
+                        value="entreprise"
+                        name="type"
+                        onChange={handleChange}
+                      />
+                        Entreprise
+                  </label>
+                  <label className={style.radioLabel}>
+                        <input
+                          type="radio"
+                          className={style.radioInput}
+                          checked={formValues.type === "individu"}
+                          name="type"
+                          onChange={handleChange}
+                          value="individu"
+                        />
+                        Individu
+                  </label>
+              </div>
+
+              <Error value={errors["type"]} />
+            </fieldset>
+          </GroupContainer>         
           {
             inputList.map((item, index) => (
               <GroupContainer key={index}>
                 <Label 
-                  value={item.label} 
+                  value={item.name === "nom" && formValues.type === "entreprise" ? 
+                  "Nom de l'entreprise" : item.name === "nom" && formValues.type === "individu" ? 
+                  "Nom et Prenom du Candidat" : item.label
+                } 
                   name={item.name}
                   required={item.required}
                 />

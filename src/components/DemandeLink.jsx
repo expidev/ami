@@ -17,7 +17,6 @@ const EmailComponent = ({ id_ami }) => {
     try {
         // Copy the selected text to the clipboard
         document.execCommand('copy');
-        console.log('Text copied to clipboard');
         setCopied(true);
     } catch (error) {
         console.error('Failed to copy text to clipboard:', error);
@@ -29,7 +28,7 @@ const EmailComponent = ({ id_ami }) => {
 
   const handleCopy = () => {
     const emailValue = inputRef.current.value;
-    if (!navigator.clipboard) {
+    try {
       navigator.clipboard.writeText(emailValue)
         .then(() => {
           console.log('Text copied to clipboard');
@@ -40,7 +39,7 @@ const EmailComponent = ({ id_ami }) => {
             // Fallback to alternative method if clipboard API is not available
             handleCopyFallback(emailValue);
         });
-    } else {
+    } catch(err) {
         handleCopyFallback(emailValue);
     }
 

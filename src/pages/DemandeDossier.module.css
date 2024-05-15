@@ -17,3 +17,46 @@
 .buttonContainer {
   align-self: flex-end;
 }
+
+.radioFieldset {
+  padding: 0.58em;
+  font-size: 1em;
+  font-family: inherit;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.radioContainer {
+  display: flex;
+  justify-content: left;
+  padding: 0;
+  margin: 0;
+  gap: 50px;
+  align-items: center;
+}
+
+.radioInput:before {
+  content: '';
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid #999; /* Default border color */
+  background-color: transparent;
+}
+
+/* Change color of custom radio button when checked */
+.radioInput:checked::before {
+  background-color: #00408c;
+}
+
+.radioLabel {
+  display: block;
+}
+
+.radioInput {
+  margin-right: 5px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}

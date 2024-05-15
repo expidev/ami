@@ -33,7 +33,7 @@ const validateCinOrNif = (cinOrNif) => {
 const validateName = (text) => {
     if (!text)
         return `Nom obligatoire.`;
-    else if (!/^[a-zA-Z0-9._ -]+$/.test(text) || text.length > 60)
+    else if (!/^[a-zA-Z0-9._ -]+$/.test(text) || text.length > 70)
         return "Nom invalide";
     else
         return "";
@@ -46,9 +46,9 @@ const validatePassword = (text) => {
         return "";
 }
 
-const validateFirstName = (text) => {
-    if (!/^[a-zA-Z ]*$/.test(text) || text.length > 60)
-        return text ? "Prénom invalide" : "";
+const validateAdresse = (text) => {
+    if (!/^[a-zA-Z0-9 ]+$/.test(text) || text.length > 70)
+        return text ? "Adresse Invalide" : "";
     else
         return "";
 }
@@ -83,7 +83,7 @@ const validateTextarea = (text) => {
 export const validateDemandeDossier = (input) => {
     return {
         nom: validateName(input.nom),
-        prenom: validateFirstName(input.prenom),
+        adresse: validateAdresse(input.adresse),
         id_candidat: validateCinOrNif(input.cin_nif),
         email: validateEmail(input.email_entreprise),
         telephone1: validateContact(input.telephone1, true),
