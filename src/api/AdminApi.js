@@ -3,7 +3,7 @@ import { baseURL } from '../config/config';
 
 class AdminApi {
     
-    static async post(body) {
+    static async signin(body) {
         const response = await axios.post(
             `${baseURL}/signin`, 
             body

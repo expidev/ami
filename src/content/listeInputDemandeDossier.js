@@ -1,9 +1,28 @@
+import DistrictApi from "../api/DistrictApi";
+import RegionApi from "../api/RegionApi.js";
+
 export const inputList = [
     {
       label: "Nom",
       type: "text",
       name: "nom",
       placeholder: "Entrez votre nom",
+      required: true
+    },
+    {
+      label: "Région",
+      type: "select",
+      name: "id_region",
+      options: await RegionApi.getRegion("/position/region"),
+      placeholder: "Selectionnez votre region",
+      required: true
+    },
+    {
+      label: "District",
+      type: "select",
+      name: "id_district",
+      options: await DistrictApi.getDistrict("/position/district"),
+      placeholder: "Selectionnez votre district",
       required: true
     },
     {

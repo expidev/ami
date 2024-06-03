@@ -11,7 +11,7 @@ const validateEmail = (email) => {
 }
 
 const validateContact = (contact, required) => {
-    const pattern = /^[0+][0-9 ]{9,16}$/;
+    const pattern = /^[0+][0-9 ]{9,18}$/;
     if (!contact)
         return required ? "Contact obligatoire." : ""
     else if (!pattern.test(contact)) {

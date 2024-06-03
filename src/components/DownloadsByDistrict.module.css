@@ -1,0 +1,35 @@
+.container {
+  width: 100%;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  max-width: 700px;
+  font-size: 1em;
+  margin: 20px auto 100px;
+}
+
+.header2 {
+    font-size: 1.1em;
+}
+
+.districtBar {
+  margin-bottom: 0.7em;
+}
+
+.label {
+  margin-bottom: 1em;
+  color: #034C8C;
+  text-transform: lowercase capitalize;
+}
+
+.progressBarContainer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+}
+
+.progressBar {
+  height: 100%;
+  background-color: #e0e0e0;
+  border-radius: 0px 10px 10px 0px;
+}

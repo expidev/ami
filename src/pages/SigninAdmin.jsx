@@ -18,6 +18,7 @@ const SigninAdmin = () => {
         email: "",
         password: ""
     });
+    const [ isLoading, setIsLoading ] = useState(false)
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
@@ -31,18 +32,23 @@ const SigninAdmin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
+        setIsLoading(true);
         try {
             const error = validateSignIn(formValues);
             if (error) {
+                setIsLoading(false)
                 setError(error);
                 return;
             }
-            const response = await AdminApi.post(formValues);
+            const response = await AdminApi.signin(formValues);
+            // setting the JWT Token for the authorization
             const { token } = response;
             AuthService.setToken(token);
             navigate('/ami/1')
         } catch (error) {
-            setError(error.response ? error.response.data.message : "Internal error");
+            setError(error.response ? error.response.data.message : "Erreur serveur");
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -82,6 +88,14 @@ const SigninAdmin = () => {
                             type="submit"
                             value="Connecter"
                         />
+                        { isLoading && (
+                            <div>
+                                <div>
+                                <p style={{textAlign:"left"}}>...En cours</p>
+                                </div>
+                            </div>
+                        )
+                        }
                     </div>
                 </form>
             </div>

@@ -10,7 +10,7 @@ import PrivateRoutes from "./components/ProtectedRoute"
 import DocumentsVisiteur from "./pages/DocumentsVisiteur"
 import Superviseur from "./pages/Superviseur"
 import NotFound from "./pages/NotFound"
-import Dashboard from "./pages/Dashboard"
+import Statistics from "./pages/Statistics"
 
 const AppRoute = ()  => (
     <>
@@ -46,8 +46,8 @@ const AppRoute = ()  => (
             />
 
             <Route 
-              path="/stats/"
-              element={<Dashboard />} 
+              path="/statistics/"
+              element={<Statistics />} 
             />
         </Route>
 

@@ -13,6 +13,7 @@ import Error from "../components/form/Error";
 import style from "./DemandeDossier.module.css";
 import { validateDemandeDossier } from "../helpers/validateForm";
 import VisitorApi from "../api/VisitorApi.js";
+import SelectInput from "../components/form/SelectInput";
 
 
 const DemandeDossier= () => {
@@ -59,7 +60,6 @@ const DemandeDossier= () => {
   
     try {
       const responseData = await VisitorApi.post('/', {...formValues, id_ami});
-      console.log('Response from server:', responseData);
       navigate(`/lien_de_confirmation/${encodeURIComponent(id_ami)}`, {replace: true})
       setIsLoading(false)
     } catch (error) {
@@ -117,20 +117,39 @@ const DemandeDossier= () => {
           {
             inputList.map((item, index) => (
               <GroupContainer key={index}>
-                <Label 
-                  value={item.name === "nom" && formValues.type === "entreprise" ? 
-                  "Nom de l'entreprise" : item.name === "nom" && formValues.type === "individu" ? 
-                  "Nom et Prenom du Candidat" : item.label
-                } 
-                  name={item.name}
-                  required={item.required}
-                />
-                <InputTexte
-                  {...item}
-                  value={formValues[item.name]}
-                  handleChange= {handleChange}
-                />
-                <Error value={errors[item.name]} />
+                {item.type === "select" ? (
+                  <>
+                      <Label 
+                        value={item.label}
+                        name={item.name}
+                        required={item.required}
+                      />
+                      <SelectInput
+                        {...item}
+                        value={formValues[item.name]}
+                        handleChange= {handleChange}
+                        placeholder={item.placeholder}
+                      />
+                      <Error value={errors[item.name]} />
+                  </>
+                ) : (
+                  <>
+                      <Label 
+                        value={item.name === "nom" && formValues.type === "entreprise" ? 
+                        "Nom de l'entreprise" : item.name === "nom" && formValues.type === "individu" ? 
+                        "Nom et Prenom du Candidat" : item.label
+                      } 
+                        name={item.name}
+                        required={item.required}
+                      />
+                      <InputTexte
+                        {...item}
+                        value={formValues[item.name]}
+                        handleChange= {handleChange}
+                      />
+                      <Error value={errors[item.name]} />
+                  </>
+                )}
               </GroupContainer>
             ))
           }

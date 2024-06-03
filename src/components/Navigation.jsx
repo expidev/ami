@@ -15,7 +15,7 @@ const Navigation = () => {
         } catch (error) {
             console.error('Error logging out:', error);
         }
-    };
+    }
 
     return (
         <div className={style.navigationContainer}>
@@ -28,6 +28,7 @@ const Navigation = () => {
                         <nav>
                         <ul className={style.navigation}>
                             <li className={style.link}><NavLink to="/ami/1">Accueil</NavLink></li>
+                            <li className={style.link}><NavLink to="/statistics">Statistiques</NavLink></li>
                             <li className={style.link}><NavLink to="#" onClick={handleLogout}>Déconnexion</NavLink></li>
                         </ul>
                         </nav>
