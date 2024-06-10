@@ -3,31 +3,31 @@ import Titre from "../components/Title";
 import { useParams } from "react-router-dom";
 import Table from "../components/tableau/Table";
 
-import style from "./Superviseur.module.css";
+import style from "./AjoutSuperviseur.module.css";
 import SuperviseurApi from "../api/SuperviseurApi";
-import Button from "../components/form/Button";
 import AjoutEmail from "../components/AjoutEmail";
 import ConfirmationModal from "../components/ConfirmationModal"; 
+import SimpleButton from "../components/form/SimpleButton";
 
-const Superviseur = () => {
+const AjoutSuperviseur = () => {
     const [ superviseurList, setSuperviseurList ] = useState([]);
     const [ trigger, setTrigger ] = useState(false);
+    // for temporary storing in the confirmation modal
     const [ selectedEmail, setSelectedEmail ] = useState({id: "", email: ""}); 
     const [ showConfirmation, setShowConfirmation ] = useState(false); 
-    const { id_ami } = useParams();
+    const { ref_ami } = useParams();
 
     useEffect(() => {
-        const fetchSuperviseur = async () => {
+        const fetchSuperviseur = async (ref_ami) => {
             try {
-                const response = await SuperviseurApi.getSuperviseur('/superviseur/', id_ami);
+                const response = await SuperviseurApi.getSuperviseur(ref_ami);
                 setSuperviseurList(response);
-            }
-            catch (err)
-            {
+            } catch (err) {
                 console.log(err.message)
+                return;
             }
         }
-        fetchSuperviseur()
+        fetchSuperviseur(ref_ami)
     }, [trigger]);
 
     const handleRemoveEmail = async (id) => {
@@ -37,6 +37,7 @@ const Superviseur = () => {
             setShowConfirmation(false); 
           } catch (err) {
             console.log(err.message);
+            return;
           }
     }
 
@@ -57,22 +58,21 @@ const Superviseur = () => {
 
     return (
         <>
-            <Titre title={`Liste des superviseurs pour l' appel d' offre ${id_ami}`} />
-            <AjoutEmail id_ami={id_ami} setTrigger={setTrigger}/>
+            <Titre title={`Liste des superviseurs pour l' appel d' offre ${ref_ami}`} />
+            <AjoutEmail ref_ami={ref_ami} setTrigger={setTrigger}/>
             <div className={style.container}>
             {superviseurList.length > 0 &&
             <Table
                 headers={["Nom", "Email", "Action"]}
             >
                 {superviseurList.length > 0 && superviseurList.map((item) => (
-                    <tr key={item.id}>
+                    <tr key={item.id_superviseur}>
                         <td>{item.nom}</td>
                         <td>{item.email}</td>
                         <td>
-                            <Button
-                                type="button"
+                            <SimpleButton
                                 value="Supprimer"
-                                handleClick={() => handleDeleteButtonClick(item.id, item.email)}
+                                handleClick={() => handleDeleteButtonClick(item.id_superviseur, item.email)}
                             />
                         </td>
                     </tr>
@@ -91,4 +91,4 @@ const Superviseur = () => {
     );
 }
 
-export default Superviseur;
+export default AjoutSuperviseur;

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Button from "../components/form/Button";
 import Table from "../components/tableau/Table";
 import Title from "../components/Title";
 import style from "./ListeAmi.module.css";
@@ -8,13 +7,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import AmiMenu from "../components/AmiMenu";
 import ConfirmationModal from "../components/ConfirmationModal";
 import Error from "../components/form/Error";
+import SimpleButton from "../components/form/SimpleButton";
 
 const ListeAmi = () => {
-    const [amiList, setAmiList] = useState([]);
-    const [totalPage, setTotalPage] = useState(1);
-    const [selectedAmiId, setSelectedAmiId] = useState(null);
-    const [error, setError] = useState(false)
-    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [ amiList, setAmiList ] = useState([]);
+    const [ totalPage, setTotalPage ] = useState(1);
+    const [ selectedAmiId, setSelectedAmiId ] = useState(null);
+    const [ trigger, setTrigger ] = useState(false);
+    const [ error, setError ] = useState(false)
+    const [ showConfirmation, setShowConfirmation ] = useState(false);
     const { page } = useParams();
     const navigate = useNavigate();
 
@@ -22,7 +23,7 @@ const ListeAmi = () => {
       const fetchAmiList = async () => {
           try {
               setError(false)
-              const newList = await AmiApi.getListByPage(page) || [];
+              const newList = await AmiApi.getListByPage(page);
               setAmiList(newList);
           } catch (err) {
               setError(true)
@@ -30,7 +31,7 @@ const ListeAmi = () => {
       };
       
       fetchAmiList();
-    }, [page]); 
+    }, [page, trigger]); 
 
     useEffect(() => {
       const countPage = async () => {
@@ -43,13 +44,14 @@ const ListeAmi = () => {
       };
       
       countPage();
-    }, []); 
+    }, []);
 
     const handleRemoveAmi = async () => {
         try {
             if (selectedAmiId) {
-                const response = await AmiApi.removeAmiById(selectedAmiId);
+                await AmiApi.removeAmiByRef(selectedAmiId);
                 setAmiList(amiList.filter(ami => ami.id_ami !== selectedAmiId));
+                setTrigger(prev => !prev);
                 setSelectedAmiId(null); // Reset selected AMI ID
                 setShowConfirmation(false); // Close modal after removal
             }
@@ -65,36 +67,37 @@ const ListeAmi = () => {
 
     return (
       <>
-        <Title title="Liste des AMIs"/>
-        <AmiMenu 
-          page={page} 
-          totalPage={totalPage}
-          setAmiList={setAmiList}
-        />
+        <Title title="Liste des Appels d'Offres"/>
+        <div className={style.container}>
+          <AmiMenu 
+            page={page} 
+            totalPage={totalPage}
+            setAmiList={setAmiList}
+          />
+        </div>
         <div className={style.container}>
           {amiList.length > 0 &&
             <Table
-                headers={["Ref Appel d'offre", "Action"]}
+                headers={["Ref. Appel d'offre", "Action"]}
             >
                 {amiList.map((item) => (
                     <tr key={item.id_ami}>
-                      <td>{item.id_ami}</td>
+                      <td>{item.ref_ami}</td>
                       <td>
-                        <Button
-                          type="button"
-                          value="DAO"
-                          handleClick={() => {navigate(`/documents/${encodeURIComponent(item.id_ami)}`)}}
-                        />
-                        <Button
-                          type="button"
-                          value="Email"
-                          handleClick={() => {navigate(`/superviseur/${encodeURIComponent(item.id_ami)}`)}}
-                        />
-                        <Button
-                          type="button"
-                          value="Supprimer"
-                          handleClick={() => handleDeleteButtonClick(item.id_ami)}
-                        />
+                        <div className={style.groupButtonContainer}>
+                          <SimpleButton
+                            value="DAO"
+                            handleClick={() => {navigate(`/modification_dao/${encodeURIComponent(item.ref_ami)}`)}}
+                          />
+                          <SimpleButton
+                            value="Email"
+                            handleClick={() => {navigate(`/superviseur/${encodeURIComponent(item.ref_ami)}`)}}
+                          />
+                          <SimpleButton
+                            value="Supprimer"
+                            handleClick={() => handleDeleteButtonClick(item.ref_ami)}
+                          />
+                        </div>
                       </td>
                     </tr>
                 ))}
@@ -102,12 +105,12 @@ const ListeAmi = () => {
           }
           {
             amiList && !error && amiList.length === 0 &&
-            <p style={{textAlign: "center"}}>Aucune liste d'AMI.</p>
+            <p className="text-center">Aucune liste d'AMI.</p>
           }
           {
             error &&
             (
-              <div style={{textAlign: "center"}}><Error value="Erreur lors de la récupération de la liste."/></div>
+              <div className="text-center"><Error value="Erreur lors de la récupération de la liste."/></div>
             )
           }
         </div>
@@ -116,7 +119,7 @@ const ListeAmi = () => {
             onCancel={() => setShowConfirmation(false)}
             onConfirm={handleRemoveAmi} // Remove AMI on confirm
         >
-            <p>Êtes-vous sûr de vouloir supprimer cet AMI ?</p>
+            <p>Êtes-vous sûr de vouloir supprimer cet appel d'offre?</p>
         </ConfirmationModal>
       </>
     );

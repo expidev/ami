@@ -1,0 +1,13 @@
+.container {
+  padding: 12px;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.editContainer {
+  width: 100%;
+  max-width: 700px;
+  font-size: 1em;
+  margin: auto;
+  margin-bottom: 100px;
+}

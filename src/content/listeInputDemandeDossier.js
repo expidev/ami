@@ -1,4 +1,3 @@
-import DistrictApi from "../api/DistrictApi";
 import RegionApi from "../api/RegionApi.js";
 
 export const inputList = [
@@ -10,19 +9,18 @@ export const inputList = [
       required: true
     },
     {
+      label: "N° NIF ou CIN",
+      type: "text",
+      name: "cin_nif",
+      placeholder: "Entrez votre N° NIF ou CIN",
+      required: false
+    },
+    {
       label: "Région",
       type: "select",
       name: "id_region",
-      options: await RegionApi.getRegion("/position/region"),
+      options: [],
       placeholder: "Selectionnez votre region",
-      required: true
-    },
-    {
-      label: "District",
-      type: "select",
-      name: "id_district",
-      options: await DistrictApi.getDistrict("/position/district"),
-      placeholder: "Selectionnez votre district",
       required: true
     },
     {
@@ -33,16 +31,9 @@ export const inputList = [
       required: true
     },
     {
-      label: "N° NIF ou CIN",
-      type: "text",
-      name: "cin_nif",
-      placeholder: "Entrez votre N° NIF ou CIN",
-      required: false
-    },
-    {
       label: "Email",
       type: "email",
-      name: "email_entreprise",
+      name: "email",
       placeholder: "Entrez votre email",
       required: true
     },

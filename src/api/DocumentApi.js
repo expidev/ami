@@ -1,61 +1,54 @@
-import axios from 'axios';
-import AuthService from '../helpers/AuthService';
-import { baseURL } from '../config/config';
+import { baseApi, protectedApi } from './api';
 
 class DocumentApi {
     
-    static async post(endpoint, formValues) {
+    static async post(formValues) {
         try {
             const formData = new FormData();
+    
+            // Append non-file fields
             Object.keys(formValues).forEach((key) => {
-                formData.append(key, formValues[key]);
-            })
-          
-            const response = await axios.post(
-                `${baseURL}${endpoint}`, 
-                formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        'Authorization': 'Bearer ' + AuthService.getToken()
+                if (key !== 'files') {
+                    formData.append(key, formValues[key]);
+                } else {
+                    // Append files
+                    for (const file of formValues.files) {
+                        formData.append('files', file.fichier); // Ensure file.fichier is the actual file object
                     }
                 }
-            );
-            return response.data
+            });
     
+            // Send the form data to the backend
+            const response = await protectedApi.post('/ajout', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            return response.data;
+    
+        } catch (error) {
+            console.error('Error posting data:', error);
+            throw error;
+        }
+    }
+    
+    static async getDocumentByRef(ref_ami) {
+        try {
+            ref_ami = encodeURIComponent(ref_ami);
+            const response = await protectedApi.get(`/documents/${ref_ami}`);
+
+            return response.data
         } catch (error) {
           console.error('Error posting data:', error);
           throw error;
         }
     }
 
-    static async getDocumentByAmi(id_ami) {
+    static async getUserDocumentByAmi(ref_ami, token) {
         try {
-            id_ami = encodeURIComponent(id_ami);
-            const response = await axios.get(
-                `${baseURL}/documents/${id_ami}`,{
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + AuthService.getToken()
-                    }}
-            );
-            return response.data
-    
-        } catch (error) {
-          console.error('Error posting data:', error);
-          throw error;
-        }
-    }
-
-    static async getUserDocumentByAmi(id_ami, token) {
-        try {
-            id_ami = encodeURIComponent(id_ami);
-            const response = await axios.get(
-                `${baseURL}/documents/${id_ami}/${token}`,{
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    }}
+            ref_ami = encodeURIComponent(ref_ami);
+            const response = await baseApi.get(
+                `/documents/${ref_ami}/${token}`
             );
             return response.data
     
@@ -67,13 +60,8 @@ class DocumentApi {
 
     static async removeDocument(id_fichier, nom_fichier) {
         try {
-            const response = await axios.delete(
-                `${baseURL}/documents/${id_fichier}/${nom_fichier}`,{
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + AuthService.getToken()
-                    }}
+            const response = await protectedApi.delete(
+                `/documents/${id_fichier}/${nom_fichier}`
             );
             return response.data
     
@@ -85,8 +73,8 @@ class DocumentApi {
 
     static async downloadDocument(type_fichier, nom_fichier) {
         try {
-            const response = await axios.post(
-                `${baseURL}/download/`, 
+            const response = await baseApi.post(
+                `/download/`, 
                 {type_fichier, nom_fichier}, {
                     responseType: 'blob',
                 }
@@ -99,11 +87,11 @@ class DocumentApi {
         }  
     }
 
-    static async downloadZip(id_ami) {
+    static async downloadZip(ref_ami) {
         try {
-          id_ami = encodeURIComponent(id_ami);
-          const response = await axios.get(
-            `${baseURL}/download/${id_ami}`,
+            ref_ami = encodeURIComponent(ref_ami);
+          const response = await baseApi.get(
+            `/download/${ref_ami}`,
             { responseType: 'blob' }
           );
           return response;

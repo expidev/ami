@@ -60,3 +60,11 @@
   -webkit-appearance: none;
   -moz-appearance: none;
 }
+
+.notice {
+  color: rgb(199, 78, 30);
+}
+
+.loading {
+  text-align: left;
+}

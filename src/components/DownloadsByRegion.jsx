@@ -1,23 +1,20 @@
 import React from 'react';
-import style from './DownloadsByDistrict.module.css';
+import style from './DownloadsByRegion.module.css';
 
-const capitalizeAndLower = (str) => {
-  return str.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
-};
 
-const DownloadsByDistrict = ({ data }) => {
+const DownloadsByRegion = ({ data }) => {
   const total = data ? data.reduce((acc, item) => acc + item.count, 0) : 0;
   return (
     <div className={style.container}>
       {total > 0 ? (
         <>
-            <h2 className={style.header2}>Téléchargement par District</h2>
+            <h2 className={style.header2}>Téléchargement par Région</h2>
             {data.map((item, index) => {
               const percentage = ((item.count / total) * 100).toFixed(2);
               return (
-                <div key={index} className={style.districtBar}>
+                <div key={index} className={style.regionBar}>
                   <p className={style.label}>
-                    {capitalizeAndLower(item.nom_district)} - Région {capitalizeAndLower(item.nom_region)} - {item.count} téléchargement
+                    Région {item.nom_region} - {item.count} téléchargement
                   </p>
                   <div className={style.progressBarContainer}>
                     <div
@@ -36,4 +33,4 @@ const DownloadsByDistrict = ({ data }) => {
   );
 };
 
-export default DownloadsByDistrict;
+export default DownloadsByRegion;

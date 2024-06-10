@@ -33,3 +33,9 @@
     color: #034C8C;
     text-decoration: underline;
 }
+
+@media screen and (max-width: 600px) {
+    .navigationContainer {
+        flex-direction: column;
+    }
+}

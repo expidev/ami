@@ -1,18 +1,11 @@
-import axios from 'axios';
-import AuthService from '../helpers/AuthService';
-import { baseURL } from '../config/config';
+import { protectedApi } from './api';
 
 class StatisticsApi {
-    static async post(endpoint, formValues) {
+    static async post(formValues) {
         try {
-            const response = await axios.post(
-                `${baseURL}${endpoint}`, 
-                formValues, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + AuthService.getToken()
-                    }
-                }
+            const response = await protectedApi.post(
+                '/statistics', 
+                formValues
             );
             return response.data
     

@@ -1,12 +1,11 @@
-import axios from 'axios';
-import { baseURL } from '../config/config';
+import { baseApi } from './api';
 
 class VisitorApi {
     
-    static async post(endpoint, body) {
+    static async post(body) {
         try {
-            const response = await axios.post(
-                `${baseURL}${endpoint}`, 
+            const response = await baseApi.post(
+                "/visiteur",
                 body
             );
             return response.data

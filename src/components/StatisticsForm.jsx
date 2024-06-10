@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import GroupContainer from "./GroupContainer";
-import Button from "./form/Button";
-import InputTexte from "./form/InputTexte";
+import GroupInput from "./GroupInput";
+import Input from "./form/Input";
 import Label from "./form/Label";
 import StatisticsApi from "../api/StatisticsApi";
 import AmiApi from "../api/AmiApi";
@@ -11,6 +10,7 @@ import { registerLocale } from "react-datepicker";
 import fr from 'date-fns/locale/fr';
 
 import style from "./StatisticsForm.module.css";
+import SubmitButton from "./form/SubmitButton";
 
 registerLocale('fr', fr);
 
@@ -40,13 +40,11 @@ const StatisticsForm = ({
     useEffect(() => {
         const fetchStatistics = async () => {
             try {
-                const generalStats = await StatisticsApi.post('/statistics', formValues);
-                console.log(generalStats)
+                const generalStats = await StatisticsApi.post(formValues);
                 setStatistics(generalStats)
             }
             catch (err) {
                 console.log(err.message)
-                throw err;
             }
         }
         fetchStatistics();
@@ -54,7 +52,7 @@ const StatisticsForm = ({
     
     const fetchSuggestions = (value) => {
         setTimeout(async () => {
-            const fetchedSuggestions = await AmiApi.searchAmiById(value);
+            const fetchedSuggestions = await AmiApi.searchAmiByRef(value);
             setSuggestions(fetchedSuggestions);
         }, 1000);
     }
@@ -84,9 +82,9 @@ const StatisticsForm = ({
         <div>
             <form className={style.container} onSubmit={handleSubmit}>
                 <div className={style.searchContainer}>
-                    <GroupContainer>
+                    <GroupInput>
                         <Label value="Référence d'appel d'offre" />
-                        <InputTexte
+                        <Input
                             type="search"
                             value={formValues.search}
                             handleChange={handleSearchChange}
@@ -103,17 +101,17 @@ const StatisticsForm = ({
                                     <div
                                         key={index}
                                         className={style.dropdownItem}
-                                        onClick={() => handleDropdownItemClick(item.id_ami)}
+                                        onClick={() => handleDropdownItemClick(item.ref_ami)}
                                         >
-                                        {item.id_ami}
+                                        {item.ref_ami}
                                     </div>
                                 ))}
                             </div>
                         )}
-                    </GroupContainer>
+                    </GroupInput>
                 </div>
 
-                <GroupContainer>
+                <GroupInput>
                     <Label value="Intervalle de Temps" />
                     <DatePicker
                         selected={formValues.startDate}
@@ -135,9 +133,9 @@ const StatisticsForm = ({
                         className={style.input}
                         wrapperClassName={style.datePickerWrapper}
                     />
-                </GroupContainer>
+                </GroupInput>
                 <div className={style.buttonContainer}>
-                   <Button type="submit" value="Procéder"/>
+                   <SubmitButton value="Procéder"/>
                 </div>
             </form>
         </div>

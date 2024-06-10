@@ -11,3 +11,7 @@ body {
   background-color: #fff; 
   overflow-y: scroll;
 }
+
+.text-center {
+  text-align: center;
+}

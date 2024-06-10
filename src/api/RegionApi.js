@@ -1,17 +1,9 @@
-import axios from 'axios';
-import { baseURL } from '../config/config';
+import { baseApi } from './api';
 
 class RegionApi {
-    static async getRegion(endpoint) {
+    static async getRegion() {
         try {
-            const response = await axios.get(
-                `${baseURL}${endpoint}`, {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
+            const response = await baseApi.get("/position/region");
             return response.data
 
         } catch (error) {

@@ -1,20 +1,12 @@
-import axios from 'axios';
-import AuthService from '../helpers/AuthService';
-import { baseURL } from '../config/config';
+import { protectedApi } from './api';
 
 class SuperviseurApi {
     
-    static async getSuperviseur(endpoint, id_ami) {
+    static async getSuperviseur(ref_ami) {
         try {
-            id_ami = encodeURIComponent(id_ami)
-            const response = await axios.get(
-                `${baseURL}${endpoint}${id_ami}`, {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + AuthService.getToken()
-                    }
-                }
+            ref_ami = encodeURIComponent(ref_ami)
+            const response = await protectedApi.get(
+                `/superviseur/${ref_ami}`
             );
             return response.data
     
@@ -24,17 +16,12 @@ class SuperviseurApi {
         }
     }
 
-    static async post(endpoint, formValues) {
+    static async post(formValues) {
         try {
 
-            const response = await axios.post(
-                `${baseURL}${endpoint}`, 
-                formValues, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + AuthService.getToken()
-                    }
-                }
+            const response = await protectedApi.post(
+                '/superviseur/', 
+                formValues,
             );
             return response.data
     
@@ -46,13 +33,8 @@ class SuperviseurApi {
 
     static async removeSuperviseur(id) {
         try {
-            const response = await axios.delete(
-                `${baseURL}/superviseur/${id}/`,{
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + AuthService.getToken()
-                    }}
+            const response = await protectedApi.delete(
+                `/superviseur/${id}/`
             );
             return response.data
     

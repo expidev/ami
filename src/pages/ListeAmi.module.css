@@ -4,3 +4,13 @@
     overflow-x: auto;
     margin: auto;
 }
+
+.groupButtonContainer {
+    display: flex;
+}
+
+@media only screen and (max-width: 650px) {
+    .groupButtonContainer {
+        flex-direction: column;
+    }
+}

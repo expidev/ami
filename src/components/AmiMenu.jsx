@@ -1,9 +1,8 @@
-import Button from "./form/Button";
-
 import style from "./AmiMenu.module.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AmiApi from "../api/AmiApi";
+import SimpleButton from "./form/SimpleButton";
 
 const AmiMenu = ({page, totalPage, setAmiList}) => {
     const [ search , setSearch ] = useState("");
@@ -12,7 +11,7 @@ const AmiMenu = ({page, totalPage, setAmiList}) => {
     const handleSearch = async (e) => {
         e.preventDefault();
         try {
-            const responseData = await AmiApi.searchAmiById(search);
+            const responseData = await AmiApi.searchAmiByRef(search);
             setAmiList(responseData)
         }
         catch(err) {
@@ -24,10 +23,9 @@ const AmiMenu = ({page, totalPage, setAmiList}) => {
         <div className={style.container}>
             <ul className={style.menuContainer}>
                 <li>
-                    <Button
-                        type="button"
+                    <SimpleButton
                         value="Nouveau DAO"
-                        handleClick={(e) => navigate('/documents')}
+                        handleClick={(e) => navigate('/ajout')}
                     />
                 </li>
                 <li>
@@ -48,15 +46,13 @@ const AmiMenu = ({page, totalPage, setAmiList}) => {
                         />
                     </form>
                 </li>
-                <li>
-                    <Button
-                        type="button"
+                <li className={style.prevNextButton}>
+                    <SimpleButton
                         value="Précédent"
                         handleClick={(e) => navigate(`/ami/${Number(page) - 1}`)}
                         disabled={page == 1 ? true: false}
                     />
-                    <Button
-                        type="button"
+                    <SimpleButton
                         value="Suivant"
                         handleClick={(e) => navigate(`/ami/${Number(page) + 1}`)}
                         disabled={page == totalPage ? true: false}

@@ -1,52 +1,47 @@
 import { Routes, Route } from "react-router-dom"
 import DemandeDossier from "./pages/DemandeDossier"
-import AjoutDossier from "./components/AjoutDossier"
 import ListeAmi from "./pages/ListeAmi"
-import ListeDocuments from "./pages/ListeDocuments"
 
-import EmailSent from "./pages/EmailSent"
-import SigninAdmin from "./pages/SigninAdmin"
+import ConfirmationDemandeDossier from "./pages/ConfirmationDemandeDossier"
+import Signin from "./pages/Signin"
 import PrivateRoutes from "./components/ProtectedRoute"
 import DocumentsVisiteur from "./pages/DocumentsVisiteur"
-import Superviseur from "./pages/Superviseur"
 import NotFound from "./pages/NotFound"
 import Statistics from "./pages/Statistics"
+import NouveauDAO from "./pages/NouveauDAO"
+import ModificationDAO from "./pages/ModificationDAO"
+import AjoutSuperviseur from "./pages/AjoutSuperviseur"
 
-const AppRoute = ()  => (
+const Router = ()  => (
     <>
       <Routes>
         <Route 
           path="/admin"
-          element={<SigninAdmin />}
+          element={<Signin />}
         />
 
         <Route element={<PrivateRoutes/>}>
             <Route 
-              path="/ami/:page"
+              path="/ami/page/:page"
               element={<ListeAmi />} 
             />
             <Route 
-              path="/ajout/:id_ami"
-              element={<AjoutDossier />}
+              path="/ajout/"
+              element={<NouveauDAO />}
             />
 
             <Route 
-              path="/documents/:id_ami" 
-              element={<ListeDocuments />}
+              path="/modification_dao/:ref_ami" 
+              element={<ModificationDAO />}
             />
 
             <Route 
-              path="/documents/" 
-              element={<ListeDocuments />}
+              path="/superviseur/:ref_ami"
+              element={<AjoutSuperviseur />} 
             />
 
             <Route 
-              path="/superviseur/:id_ami"
-              element={<Superviseur />} 
-            />
-
-            <Route 
-              path="/statistics/"
+              path="/statistiques/"
               element={<Statistics />} 
             />
         </Route>
@@ -55,17 +50,17 @@ const AppRoute = ()  => (
 
         
         <Route 
-          path="/dao/:id_ami/:token" 
+          path="/dao/:ref_ami/:token" 
           element={<DocumentsVisiteur />}
         />
 
         <Route 
-          path="/lien_de_confirmation/:id_ami" 
-          element={<EmailSent />}
+          path="/lien_de_confirmation/:ref_ami" 
+          element={<ConfirmationDemandeDossier />}
         />
 
         <Route 
-          path="/demande/:id_ami" 
+          path="/demande/:ref_ami" 
           element={<DemandeDossier />}
         />
 
@@ -77,4 +72,4 @@ const AppRoute = ()  => (
     </>
 )
 
-export default AppRoute
+export default Router

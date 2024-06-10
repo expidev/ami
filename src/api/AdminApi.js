@@ -1,22 +1,14 @@
-import axios from 'axios';
-import { baseURL } from '../config/config';
+import { baseApi, protectedApi } from './api';
 
 class AdminApi {
     
     static async signin(body) {
-        const response = await axios.post(
-            `${baseURL}/signin`, 
-            body
-        );
+        const response = await baseApi.post("/signin", body);
         return response.data
     }
 
     static async logout() {
-        await axios.post(`${baseURL}/logout`, null, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-        });
+        await protectedApi.post("/logout");
     }
 }
 

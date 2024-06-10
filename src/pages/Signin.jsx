@@ -1,25 +1,26 @@
 import { useState } from "react"
 import Titre from "../components/Title"
-import GroupContainer from "../components/GroupContainer"
-import InputTexte from "../components/form/InputTexte"
+import GroupInput from "../components/GroupInput"
+import Input from "../components/form/Input"
 import Label from "../components/form/Label"
 import Error from "../components/form/Error"
-import Button from "../components/form/Button"
 
-import style from "./SigninAdmin.module.css"
+import style from "./Signin.module.css"
 import AdminApi from "../api/AdminApi"
 import AuthService from "../helpers/AuthService"
 import { useNavigate } from "react-router-dom"
 import { validateSignIn } from "../helpers/validateForm";
+import { signinContent } from "../content/signinContent"
+import SubmitButton from "../components/form/SubmitButton"
 
-const SigninAdmin = () => {
+const Signin = () => {
 
-    const [formValues, setFormValues] = useState({
+    const [ formValues, setFormValues ] = useState({
         email: "",
-        password: ""
+        mot_de_passe: ""
     });
     const [ isLoading, setIsLoading ] = useState(false)
-    const [error, setError] = useState("");
+    const [ error, setError ] = useState("");
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -44,9 +45,12 @@ const SigninAdmin = () => {
             // setting the JWT Token for the authorization
             const { token } = response;
             AuthService.setToken(token);
-            navigate('/ami/1')
+            navigate('/ami/page/1')
         } catch (error) {
-            setError(error.response ? error.response.data.message : "Erreur serveur");
+            setError(
+                error.response ? error.response.data.message 
+                : "Erreur serveur"
+            );
         } finally {
             setIsLoading(false)
         }
@@ -60,38 +64,35 @@ const SigninAdmin = () => {
                     className={style.formContainer}
                     onSubmit={handleSubmit}
                 >
-                    <GroupContainer>
+                    <GroupInput>
                         <Error value={error} />
-                    </GroupContainer>
-                    <GroupContainer>
-                        <Label value="Email" name="email"/>
-                        <InputTexte
-                            type="email"
-                            name="email"
-                            value={formValues["email"]}
-                            handleChange={handleChange}
-                            placeholder="Entrez votre email"
-                        />
-                    </GroupContainer>
-                    <GroupContainer>
-                        <Label value="Mot de Passe" name="password"/>
-                        <InputTexte
-                            type="password"
-                            name="password"
-                            value={formValues["password"]}
-                            handleChange={handleChange}
-                            placeholder="Entrez votre mot de passe"
-                        />
-                    </GroupContainer>
+                    </GroupInput>
+
+                    {
+                        signinContent.map((item, index) => (
+                        <GroupInput key={index}>
+                            <Label 
+                                value={item.label}
+                                name={item.name}
+                                required={item.required}
+                            />
+                            <Input
+                                {...item}
+                                value={formValues[item.name]}
+                                handleChange= {handleChange}
+                            />
+                        </GroupInput>
+                        ))
+                    }                    
                     <div className={style.buttonContainer}>
-                        <Button
+                        <SubmitButton
                             type="submit"
                             value="Connecter"
                         />
                         { isLoading && (
                             <div>
                                 <div>
-                                <p style={{textAlign:"left"}}>...En cours</p>
+                                <p className={style.loading}>...En cours</p>
                                 </div>
                             </div>
                         )
@@ -103,4 +104,4 @@ const SigninAdmin = () => {
     )
 }
 
-export default SigninAdmin
+export default Signin

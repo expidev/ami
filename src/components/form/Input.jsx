@@ -1,6 +1,6 @@
-import style from "./InputTexte.module.css"
+import style from "./Input.module.css"
 
-const InputTexte= ({
+const Input= ({
   type, 
   value, 
   name, 
@@ -20,4 +20,4 @@ const InputTexte= ({
        />
 );
   
-export default InputTexte;
+export default Input;

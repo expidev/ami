@@ -17,3 +17,7 @@
 .buttonContainer {
   align-self: flex-end;
 }
+
+.loading {
+  text-align: left;
+}

@@ -1,5 +1,5 @@
 import "./App.css"
-import AppRoute from "./AppRoute"
+import Router from "./Router"
 import ErrorBoundary from "./components/ErrorBoundary"
 import Navigation from "./components/Navigation"
 
@@ -7,7 +7,7 @@ const App = ()  => (
     <>
       <ErrorBoundary>
           <Navigation />
-          <AppRoute/>
+          <Router />
       </ErrorBoundary>
     </>
 )

@@ -1,20 +1,10 @@
-import axios from 'axios';
-import AuthService from '../helpers/AuthService';
-import { baseURL } from '../config/config';
+import { baseApi, protectedApi } from './api';
 
 class AmiApi {
     
     static async getListByPage(page) {
         try {
-            const response = await axios.get(
-                `${baseURL}/ami/page/${page}`, {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + AuthService.getToken()
-                    }
-                }
-            );
+            const response = await protectedApi.get(`/ami/page/${page}` );
             return response.data
     
         } catch (error) {
@@ -25,15 +15,7 @@ class AmiApi {
 
     static async countPage() {
         try {
-            const response = await axios.get(
-                `${baseURL}/ami/`, {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + AuthService.getToken()
-                    }
-                }
-            );
+            const response = await protectedApi.get("/ami/");
             return response.data
     
         } catch (error) {
@@ -42,18 +24,10 @@ class AmiApi {
         }
     }
 
-    static async getAmiById(id_ami) {
+    static async getAmiByRef(ref_ami) {
         try {
-            id_ami = encodeURIComponent(id_ami)
-            const response = await axios.get(
-                `${baseURL}/ami/${id_ami}`, {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + AuthService.getToken()
-                    }
-                }
-            );
+            ref_ami = encodeURIComponent(ref_ami)
+            const response = await baseApi.get(`/ami/${ref_ami}`);
             return response.data[0]
         } catch (error) {
           console.error('Error posting data:', error);
@@ -61,18 +35,10 @@ class AmiApi {
         }
     }
 
-    static async removeAmiById(id_ami) {
+    static async removeAmiByRef(ref_ami) {
         try {
-            id_ami = encodeURIComponent(id_ami)
-            const response = await axios.delete(
-                `${baseURL}/ami/${id_ami}`, {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + AuthService.getToken()
-                    }
-                }
-            );
+            ref_ami = encodeURIComponent(ref_ami)
+            const response = await protectedApi.delete(`/ami/${ref_ami}`);
             return response
         } catch (error) {
           console.error('Error posting data:', error);
@@ -80,18 +46,10 @@ class AmiApi {
         }
     }
 
-    static async searchAmiById(id_ami) {
+    static async searchAmiByRef(ref_ami) {
         try {
-            id_ami = encodeURIComponent(id_ami)
-            const response = await axios.get(
-                `${baseURL}/search/${encodeURIComponent(id_ami)}`, {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + AuthService.getToken()
-                    }
-                }
-            );
+            ref_ami = encodeURIComponent(ref_ami)
+            const response = await protectedApi.get(`/search/${encodeURIComponent(ref_ami)}`);
             return response.data
         } catch (error) {
           console.error('Error posting data:', error);

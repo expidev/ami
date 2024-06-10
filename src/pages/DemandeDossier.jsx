@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import InputTexte from "../components/form/InputTexte";
+import Input from "../components/form/Input";
 import { inputList } from "../content/listeInputDemandeDossier";
 import Title from "../components/Title";
-import Button from "../components/form/Button";
-import GroupContainer from "../components/GroupContainer";
+import GroupInput from "../components/GroupInput";
 import Label from "../components/form/Label";
 import Error from "../components/form/Error";
 
@@ -14,6 +13,8 @@ import style from "./DemandeDossier.module.css";
 import { validateDemandeDossier } from "../helpers/validateForm";
 import VisitorApi from "../api/VisitorApi.js";
 import SelectInput from "../components/form/SelectInput";
+import SubmitButton from "../components/form/SubmitButton";
+import RegionApi from "../api/RegionApi";
 
 
 const DemandeDossier= () => {
@@ -21,21 +22,35 @@ const DemandeDossier= () => {
   const [ formValues, setFormValues ] = useState({
     type: "entreprise",
     nom: "",
-    prenom: "",
     cin_nif: "",
-    email_entreprise: "",
+    adresse: "",
+    email: "",
     telephone1: "",
     telephone2: "",
     telephone3: ""
   });
+  const [ region, setRegion ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(false)
   const [ isFailed, setIsFailed ] = useState(false)
-
   const [ errors, setErrors ] = useState({});
 
-  const { id_ami } = useParams();
+  const { ref_ami } = useParams();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchRegion = async() => {
+      try {
+        const response = await RegionApi.getRegion()
+        setRegion(response);
+      } catch (error) {
+        console.log(error)
+        throw error;
+      }
+    }
+
+    fetchRegion()
+  }, [])
 
   const handleChange = (e) => {
     setFormValues({
@@ -59,8 +74,9 @@ const DemandeDossier= () => {
     setIsFailed(false);
   
     try {
-      const responseData = await VisitorApi.post('/', {...formValues, id_ami});
-      navigate(`/lien_de_confirmation/${encodeURIComponent(id_ami)}`, {replace: true})
+      const body = {...formValues, ref_ami}
+      await VisitorApi.post(body);
+      navigate(`/lien_de_confirmation/${encodeURIComponent(ref_ami)}`, {replace: true})
       setIsLoading(false)
     } catch (error) {
       setIsLoading(false)
@@ -68,18 +84,40 @@ const DemandeDossier= () => {
       console.error('Error:', error);
     }
   };
+
+  const changeLabelByNomAndType = (name, type, label) => {
+      if (name === "nom") {
+        if (type == "entreprise")
+          return "Nom de l'entreprise";
+        else
+          return "Nom et Prénom du Candidat"
+      } else {
+          return label
+      }
+  }
+
+  const changePlaceholderByNomAndType = (name, type, placeholder) => {
+    if (name === "nom") {
+      if (type == "entreprise")
+        return "Entrez votre nom d'entreprise";
+      else
+        return "Entrez votre nom et prénom"
+    } else {
+        return placeholder
+    }
+}
   
 
   return (
     <>
-      <Title title={`Formulaire de téléchargement de dossiers pour l'appel d'offre ${id_ami}`} />
+      <Title title={`Formulaire de téléchargement de dossiers pour l'appel d'offre ${ref_ami}`} />
       <div className={style.container}>
         <form 
           className={style.formContainer}
           onSubmit={handleSubmit}
         >
-          <p style={{color: "rgb(199, 78, 30)"}}>Les champs marqués avec (*) sont obligatoires.</p>
-          <GroupContainer>
+          <p className={style.notice}>Les champs marqués avec (*) sont obligatoires.</p>
+          <GroupInput>
                 <Label 
                   value="Type"
                   name="type"
@@ -87,36 +125,32 @@ const DemandeDossier= () => {
                 />
            <fieldset className={style.radioFieldset}>
               <div className={style.radioContainer}>
-                  <label className={style.radioLabel}>
-                      <input
-                        type="radio"
-                        className={style.radioInput}
-                        checked={formValues.type === "entreprise"}
-                        value="entreprise"
-                        name="type"
-                        onChange={handleChange}
-                      />
-                        Entreprise
-                  </label>
-                  <label className={style.radioLabel}>
+                  {
+                    ["entreprise", "individu"].map(item => (
+                      <label 
+                        key={item}
+                        className={style.radioLabel}
+                      >
                         <input
                           type="radio"
                           className={style.radioInput}
-                          checked={formValues.type === "individu"}
+                          checked={formValues.type === item}
+                          value={item}
                           name="type"
                           onChange={handleChange}
-                          value="individu"
                         />
-                        Individu
-                  </label>
+                          {item}
+                    </label>
+                    ))
+                  }
               </div>
 
               <Error value={errors["type"]} />
             </fieldset>
-          </GroupContainer>         
+          </GroupInput>
           {
             inputList.map((item, index) => (
-              <GroupContainer key={index}>
+              <GroupInput key={index}>
                 {item.type === "select" ? (
                   <>
                       <Label 
@@ -126,6 +160,7 @@ const DemandeDossier= () => {
                       />
                       <SelectInput
                         {...item}
+                        options={region}
                         value={formValues[item.name]}
                         handleChange= {handleChange}
                         placeholder={item.placeholder}
@@ -135,34 +170,33 @@ const DemandeDossier= () => {
                 ) : (
                   <>
                       <Label 
-                        value={item.name === "nom" && formValues.type === "entreprise" ? 
-                        "Nom de l'entreprise" : item.name === "nom" && formValues.type === "individu" ? 
-                        "Nom et Prenom du Candidat" : item.label
-                      } 
+                        value={
+                          changeLabelByNomAndType(item.name, formValues.type, item.label)
+                        } 
                         name={item.name}
                         required={item.required}
                       />
-                      <InputTexte
+                      <Input
                         {...item}
+                        placeholder={
+                          changePlaceholderByNomAndType(item.name, formValues.type, item.placeholder)
+                        }
                         value={formValues[item.name]}
                         handleChange= {handleChange}
                       />
                       <Error value={errors[item.name]} />
                   </>
                 )}
-              </GroupContainer>
+              </GroupInput>
             ))
           }
           <div className={style.buttonContainer}>
-            <Button
-              type="submit"
+            <SubmitButton
               value="Demander"
             />
             { isLoading && (
               <div>
-                <div>
-                  <p style={{textAlign:"left"}}>...En cours</p>
-                </div>
+                  <p className={style.loading}>...En cours</p>
               </div>
             )
             }
