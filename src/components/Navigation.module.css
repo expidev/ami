@@ -22,11 +22,12 @@
 }
 
 .link a {
+    color: #000000;
     text-decoration: none;
 }
 
 .link a:visited {
-    color: initial;
+    color: #000000;
 }
 
 .link a:hover {
