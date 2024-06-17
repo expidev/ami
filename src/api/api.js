@@ -26,6 +26,7 @@ const protectedApi = axios.create({
         'Accept': 'application/json',
         'Content-Type': 'application/json',
     },
+    withCredentials: true,
 });
 
 protectedApi.interceptors.request.use(
